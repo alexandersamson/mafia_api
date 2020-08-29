@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="mafia@localhost" uuid="576ebc61-8450-40ba-81db-5b43739df72e">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/mafia</jdbc-url>
+      <driver-properties>
+        <property name="xdevapi.ssl-mode" value="DISABLED" />
+      </driver-properties>
+    </data-source>
+  </component>
+</project>

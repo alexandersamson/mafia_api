@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0843a876-958a-4141-8419-e5512d37f090" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
+  <component name="ProjectId" id="1gHQJ8jR6b48ahJxC5ZB9NWwL5N" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RunManager">
+    <configuration name="index.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/index.php">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHP Script.index.php" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0843a876-958a-4141-8419-e5512d37f090" name="Default Changelist" comment="" />
+      <created>1597768963560</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1597768963560</updated>
+      <workItem from="1597768964636" duration="73999000" />
+      <workItem from="1597958937077" duration="158479000" />
+      <workItem from="1598321333624" duration="64826000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="552" y="183" key="#Intentions" timestamp="1597839584941">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="552" y="183" key="#Intentions/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597839584941" />
+    <state x="672" y="168" key="#PHP" timestamp="1597771271942">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="672" y="168" key="#PHP/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597771271942" />
+    <state x="336" y="366" key="#SQL_Dialects" timestamp="1597831840962">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="336" y="366" key="#SQL_Dialects/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597831840962" />
+    <state x="552" y="183" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597794043322">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="552" y="183" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597794043322" />
+    <state x="1030" y="246" key="#com.intellij.ide.util.MemberChooser" timestamp="1597941657350">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="1030" y="246" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597941657350" />
+    <state x="-1885" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1598479051081">
+      <screen x="-1920" y="0" width="1920" height="1050" />
+    </state>
+    <state x="-1885" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598479051081" />
+    <state x="442" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598131844131" />
+    <state x="690" y="272" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1598135243748">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="690" y="272" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598135243748" />
+    <state x="710" y="376" key="#com.jetbrains.php.refactoring.move.member.instance.PhpMoveInstanceMethodDialog#" timestamp="1598039215949">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="710" y="376" key="#com.jetbrains.php.refactoring.move.member.instance.PhpMoveInstanceMethodDialog#/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598039215949" />
+    <state width="1877" height="146" key="GridCell.Tab.0.bottom" timestamp="1598321011618">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="146" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598321011618" />
+    <state width="1877" height="146" key="GridCell.Tab.0.center" timestamp="1598321011618">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="146" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598321011618" />
+    <state width="1877" height="146" key="GridCell.Tab.0.left" timestamp="1598321011618">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="146" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598321011618" />
+    <state width="1877" height="146" key="GridCell.Tab.0.right" timestamp="1598321011618">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="146" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598321011618" />
+    <state width="1877" height="146" key="GridCell.Tab.1.bottom" timestamp="1598321011618">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="146" key="GridCell.Tab.1.bottom/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598321011618" />
+    <state width="1877" height="146" key="GridCell.Tab.1.center" timestamp="1598321011618">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="146" key="GridCell.Tab.1.center/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598321011618" />
+    <state width="1877" height="146" key="GridCell.Tab.1.left" timestamp="1598321011618">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="146" key="GridCell.Tab.1.left/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598321011618" />
+    <state width="1877" height="146" key="GridCell.Tab.1.right" timestamp="1598321011618">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="146" key="GridCell.Tab.1.right/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598321011618" />
+    <state width="174" height="456" key="HiddenNamespacesPopup" timestamp="1597771928214">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="174" height="456" key="HiddenNamespacesPopup/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597771928214" />
+    <state x="-1141" y="249" key="NewPhpClassDialog" timestamp="1598576672352">
+      <screen x="-1920" y="0" width="1920" height="1050" />
+    </state>
+    <state x="-1141" y="249" key="NewPhpClassDialog/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598576672352" />
+    <state x="779" y="249" key="NewPhpClassDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598376002175" />
+    <state x="795" y="448" key="NewPhpFileDialog" timestamp="1597793626957">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="795" y="448" key="NewPhpFileDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597793626957" />
+    <state x="802" y="123" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1597832976061">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="802" y="123" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597832976061" />
+    <state x="74" y="0" key="com.jetbrains.php.config.phpInfo.PhpInfo.PhpInfoDialog" timestamp="1598315935730">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="74" y="0" key="com.jetbrains.php.config.phpInfo.PhpInfo.PhpInfoDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598315935730" />
+    <state x="-1411" y="0" width="1427" height="1037" key="dock-window-1" timestamp="1598366601014">
+      <screen x="-1920" y="0" width="1920" height="1050" />
+    </state>
+    <state x="-1411" y="0" width="1427" height="1037" key="dock-window-1/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598366601014" />
+    <state x="16" y="56" width="1427" height="1037" key="dock-window-2" timestamp="1598575475533">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="16" y="56" width="1427" height="1037" key="dock-window-2/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598575475533" />
+    <state x="-1486" y="0" width="1234" height="1037" key="dock-window-2/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597935910562" />
+    <state x="509" y="0" width="1427" height="1037" key="dock-window-3" timestamp="1598575475533">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="509" y="0" width="1427" height="1037" key="dock-window-3/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598575475533" />
+    <state x="-1319" y="0" width="1234" height="1037" key="dock-window-3/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597944844267" />
+    <state x="-1691" y="147" width="1106" height="772" key="find.popup" timestamp="1598583946872">
+      <screen x="-1920" y="0" width="1920" height="1050" />
+    </state>
+    <state x="-1691" y="147" width="1106" height="772" key="find.popup/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598583946872" />
+    <state x="687" y="303" width="881" height="650" key="find.popup/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598381490525" />
+    <state x="616" y="243" key="run.anything.popup" timestamp="1598325738666">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="616" y="243" key="run.anything.popup/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598325738666" />
+    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1598097868837">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598097868837" />
+  </component>
+</project>
