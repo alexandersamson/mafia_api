@@ -18,6 +18,8 @@ class Player
     public $isSuperadmin = false;
     public $isAdmin = false;
     public $isModerator = false;
+    public $token = "";
+    public $tokenExpiresOn = 0;
 
 
 

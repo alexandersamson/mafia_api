@@ -39,7 +39,7 @@ class MessageService
     }
 
     public function add($type, $message){
-        if($this->showDebugging || substr($type,0,4) == 'user') {
+        if($this->showDebugging) {
             array_push($this->messages, ["type" => $this->messageTypes[$type], "message" => $message]);
         }
     }

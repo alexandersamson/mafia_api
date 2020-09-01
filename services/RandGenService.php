@@ -24,6 +24,18 @@ class RandGenService
         return $pin;
     }
 
+    /**
+     * @param string $salt
+     * @return PlayerToken
+     */
+    public function generateToken($salt = ''){
+        $token = new PlayerToken();
+        $token->token = hash("sha3-512", $this->generateId($salt).$this->generateId($salt));
+        $date = new DateTime();
+        $token->expiresOn =  $date->getTimestamp() + GlobalsService::$tokenExpiresAfter;
+        return $token;
+    }
+
     public function generateId($salt = ''){
         if($salt == ''){
             $salt = GlobalsService::getInstance()->getGenSalt();

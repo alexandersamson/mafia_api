@@ -45,7 +45,7 @@ class QueryService
         if($fullFetch){
             $sql = "SELECT roles.* FROM mafia.seats INNER JOIN mafia.roles ON seats.role_id = roles.id WHERE seats.game_id = ? AND roles.deleted = ?;";
         } else {
-            $sql = "SELECT roles.id, roles.rid, roles.name, roles.type, roles.balance_power, roles.image_url, roles.fid, roles.abilities, roles.inventory FROM mafia.seats INNER JOIN mafia.roles ON seats.role_id = roles.id WHERE seats.game_id = ? AND roles.deleted = ?;";
+            $sql = "SELECT roles.id, roles.rid, roles.name, roles.type, roles.balance_power, roles.image_url, roles.faction_id, roles.abilities, roles.inventory FROM mafia.seats INNER JOIN mafia.roles ON seats.role_id = roles.id WHERE seats.game_id = ? AND roles.deleted = ?;";
         }
         $stmt = SL::Services()->connection->getConnection()->prepare($sql);
         $stmt->bindParam(1, $game->id, PDO::PARAM_INT);
@@ -63,18 +63,21 @@ class QueryService
         return $this->querySelectRolesByGame($game, $getDeleted, false);
     }
 
-    public function querySelectDistinctFactionsByGame($game, $getDeleted = false){
+    public function querySelectDistinctFactionsByGame($game, $excludeInertFactions = true, $getDeleted = false){
         if(!SL::Services()->validationService->validateParams(["Game" => [$game], "bool" => [$getDeleted]],__METHOD__)){
             return null;
         }
-        $excludedFids = "'".implode('\', \'', GlobalsService::getInstance()->getInertFids())."'";
-        $sql = "SELECT DISTINCT factions.* FROM mafia.factions INNER JOIN mafia.seats ON factions.fid = seats.fid INNER JOIN mafia.games ON games.id = seats.game_id
-                WHERE games.id = ? AND factions.deleted = ? AND factions.fid NOT IN ($excludedFids) ORDER BY factions.list_priority;";
+        $fisInertSearch = $excludeInertFactions ? 'AND factions.is_inert = 0' : '';
+        $sql = "SELECT DISTINCT factions.* FROM mafia.factions 
+                INNER JOIN mafia.seats ON factions.id = seats.faction_id 
+                INNER JOIN mafia.games ON games.id = seats.game_id 
+                WHERE games.id = ? ".$fisInertSearch." AND factions.deleted = ? ORDER BY factions.list_priority;";
         $stmt = SL::Services()->connection->getConnection()->prepare($sql);
         $stmt->bindParam(1, $game->id, PDO::PARAM_INT);
-        $stmt->bindParam(2, $getDeleted, PDO::PARAM_STR);
+        $stmt->bindParam(2, $getDeleted, PDO::PARAM_BOOL);
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        MessageService::getInstance()->add("debug","(QueryService::querySelectDistinctFactionsByGame) MYSQL getFromTable: " . $sql);
         if(isset($data[0])){
             MessageService::getInstance()->add("debug","(QueryService::querySelectDistinctFactionsByGame) MYSQL getFromTable: " . implode(';',$data[0]));
             return $data;
@@ -103,7 +106,7 @@ class QueryService
         if(!SL::Services()->validationService->validateParams(["Player" => [$player]],__METHOD__)){
             return null;
         }
-        $sql = "SELECT factions.* FROM mafia.factions LEFT JOIN mafia.seats ON factions.fid = seats.fid INNER JOIN mafia.players ON seats.player_id = players.id WHERE players.id = ?;";
+        $sql = "SELECT factions.* FROM mafia.factions LEFT JOIN mafia.seats ON factions.id = seats.faction_id INNER JOIN mafia.players ON seats.player_id = players.id WHERE players.id = ?;";
         $stmt = SL::Services()->connection->getConnection()->prepare($sql);
         $stmt->bindParam(1, $player->id, PDO::PARAM_INT);
         $stmt->execute();
@@ -114,5 +117,143 @@ class QueryService
         }
         return null;
     }
+
+    public function querySelectPlayerByUnexpiredToken($token, $timestamp, $deleted = false){
+        if(!SL::Services()->validationService->validateParams(["string" => [$token], "integer" => [$timestamp], "bool" => [$deleted]],__METHOD__)){
+            return null;
+        }
+        $sql = "SELECT * FROM `players` WHERE players.token = ? AND players.deleted = ? AND players.token_expires_on > ?;";
+        $stmt = SL::Services()->connection->getConnection()->prepare($sql);
+        $stmt->bindParam(1, $token, PDO::PARAM_STR);
+        $stmt->bindParam(2, $deleted, PDO::PARAM_BOOL);
+        $stmt->bindParam(3, $timestamp, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if(isset($data[0])){
+            MessageService::getInstance()->add("debug","(QueryService::querySelectPlayerByUnexpiredToken) MYSQL getFromTable: " . implode(';',$data[0]));
+            return $data[0];//[0] because of single object to return.
+        }
+        return null;
+    }
+
+    public function queryCountHostsByPlayerAndGame($player, $game, $getDeleted = false){
+        if(!SL::Services()->validationService->validateParams(["Player" => [$player], "Game" => [$game], "bool" => [$getDeleted]],__METHOD__)){
+            return null;
+        }
+        $hostRid = GlobalsService::getInstance()->getGameHostRoleRid();
+        $sql = "SELECT count(*) FROM mafia.players 
+                LEFT JOIN mafia.seats ON players.id = seats.player_id 
+                LEFT JOIN mafia.roles ON seats.role_id = roles.id 
+                LEFT JOIN mafia.games ON seats.game_id = games.id 
+                WHERE roles.rid = ? AND players.id = ? AND games.id = ? AND games.deleted = ? AND players.deleted = ?;";
+        $stmt = SL::Services()->connection->getConnection()->prepare($sql);
+        $stmt->bindParam(1, $hostRid, PDO::PARAM_STR);
+        $stmt->bindParam(2, $player->id, PDO::PARAM_INT);
+        $stmt->bindParam(3, $game->id, PDO::PARAM_INT);
+        $stmt->bindParam(4, $getDeleted, PDO::PARAM_BOOL);
+        $stmt->bindParam(5, $getDeleted, PDO::PARAM_BOOL);
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    }
+
+
+    public function querySelectHostPlayerByGame($game, $getDeleted = false){
+        if(!SL::Services()->validationService->validateParams(["Game" => [$game], "bool" => [$getDeleted]],__METHOD__)){
+            return null;
+        }
+        $hostRid = GlobalsService::getInstance()->getGameHostRoleRid();
+        $sql = "SELECT players.* FROM mafia.players 
+                LEFT JOIN mafia.seats ON players.id = seats.player_id 
+                LEFT JOIN mafia.roles ON seats.role_id = roles.id 
+                WHERE seats.game_id = ? AND roles.rid = ? AND roles.deleted = ? AND players.deleted = ?;
+";
+        $stmt = SL::Services()->connection->getConnection()->prepare($sql);
+        $stmt->bindParam(1, $game->id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $hostRid, PDO::PARAM_STR);
+        $stmt->bindParam(3, $getDeleted, PDO::PARAM_BOOL);
+        $stmt->bindParam(4, $getDeleted, PDO::PARAM_BOOL);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if(isset($data[0])){
+            MessageService::getInstance()->add("debug","(QueryService::querySelectHostPlayerByGameId) MYSQL getFromTable: " . implode(';',$data[0]));
+            return $data[0];//[0] because of single object to return.
+        }
+        return null;
+    }
+
+
+    public function queryCountInertFactionsByFid($fid, $getDeleted = false){
+        if(!SL::Services()->validationService->validateParams(["validate_fid" => [$fid], "bool" => [$getDeleted]],__METHOD__)){
+            return null;
+        }
+        $sql = "SELECT COUNT(*) FROM `factions` WHERE is_inert = true AND fid = ? AND deleted = ?;";
+        $stmt = SL::Services()->connection->getConnection()->prepare($sql);
+        $stmt->bindParam(1, $fid, PDO::PARAM_STR);
+        $stmt->bindParam(2, $getDeleted, PDO::PARAM_BOOL);
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    }
+
+
+    public function querySelectRolesByFid($fid, $getDeleted = false){
+        if(!SL::Services()->validationService->validateParams(["validate_fid" => [$fid], "bool" => [$getDeleted]],__METHOD__)){
+            return null;
+        }
+        $sql = "SELECT roles.* FROM mafia.roles LEFT JOIN mafia.factions ON roles.faction_id = factions.id WHERE factions.fid = ? AND roles.deleted = ?";
+        $stmt = SL::Services()->connection->getConnection()->prepare($sql);
+        $stmt->bindParam(1, $fid, PDO::PARAM_STR);
+        $stmt->bindParam(2, $getDeleted, PDO::PARAM_BOOL);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if(isset($data[0])){
+            MessageService::getInstance()->add("debug","(QueryService::querySelectHostPlayerByGameId) MYSQL getFromTable: " . implode(';',$data[0]));
+            return $data;
+        }
+        return null;
+    }
+
+
+    public function calculatePowerLevelForRolesOfTypeInGame($role, $game = false){
+        if(!SL::Services()->validationService->validateParams(["Role" => [$role], "Game" => [$game]],__METHOD__)){
+            return null;
+        }
+        $sql = "SELECT SUM(roles.balance_power) FROM mafia.roles LEFT JOIN mafia.seats ON roles.id = seats.role_id WHERE seats.game_id = ? AND roles.id = ?;";
+        $stmt = SL::Services()->connection->getConnection()->prepare($sql);
+        $stmt->bindParam(1, $game->id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $role->id, PDO::PARAM_INT);
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    }
+
+
+    public function queryCountPlayerIsInSpecificGame($player, $game, $getDeleted = false){
+        if(!SL::Services()->validationService->validateParams(["Player" => [$player], "Game" => [$game], "bool" => [$getDeleted]],__METHOD__)){
+            return null;
+        }
+        $sql = "SELECT count(*) FROM mafia.players LEFT JOIN mafia.seats ON players.id = seats.player_id WHERE seats.game_id = ? AND players.id = ? AND players.deleted = ?;";
+        $stmt = SL::Services()->connection->getConnection()->prepare($sql);
+        $stmt->bindParam(1, $player->id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $game->id, PDO::PARAM_INT);
+        $stmt->bindParam(3, $getDeleted, PDO::PARAM_BOOL);
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    }
+
+    public function queryCountOccupiedHostsForGame($game){
+        if(!SL::Services()->validationService->validateParams(["Game" => [$game]],__METHOD__)){
+            return null;
+        }
+        $hostRid = GlobalsService::getInstance()->getGameHostRoleRid();
+        $sql = "SELECT COUNT(*) FROM mafia.seats LEFT JOIN mafia.roles ON seats.role_id = roles.id WHERE seats.player_id IS NOT NULL AND seats.game_id = ? AND roles.rid = ?;";
+        $stmt = SL::Services()->connection->getConnection()->prepare($sql);
+        $stmt->bindParam(1, $game->id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $hostRid, PDO::PARAM_STR);
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    }
+
+
+
+
 }
 

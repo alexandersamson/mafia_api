@@ -19,7 +19,7 @@ class GameService
     /**
      * @param string $id
      * @param bool $getDeleted
-     * @return object|null
+     * @return Game|null
      */
     function getGameById(string $id, bool $getDeleted = false){
         return SL::Services()->objectService->getSingleObject(
@@ -55,23 +55,23 @@ class GameService
         foreach ($games as $game){
             array_push($viewModels, $this->prepareGameViewModel($game));
         }
+        $viewModels = $this->stripPinFromGames($viewModels);
         $pagination = SL::Services()->paginationService->getPaginationObject($caller['function'], $page, count($games), $totalCount);
-        return ["data" => $viewModels,strtolower(get_class(new Pagination())) => $pagination];
+        return ["data" => $viewModels, strtolower(get_class(new Pagination())) => $pagination];
     }
 
 
-    public function prepareGameViewModel($game){
+    public function prepareGameViewModel(Game $game){
         if(!SL::Services()->validationService->validateParams(["Game" => [$game]], __METHOD__)){
             return null;
         }
         $viewModel = new GameView($game);
         $roles = SL::Services()->roleService->getOriginalRolesByGame($game);
-        $viewModel->availableSlots = SL::Services()->seatService->getCountGameSlotsAvailable($game, true);
-        $viewModel->usedSlots = SL::Services()->seatService->getCountGameSeatsUsed($game);
         $viewModel->factions = SL::Services()->factionService->getUniqueFactionsByGame($game);
         $viewModel->factions = SL::Services()->roleService->addPowerLevelsToFactions($viewModel->factions, $roles);
-        $viewModel->creatorName = SL::Services()->playerService->getPlayerNameById($viewModel->creatorPlayerId);
-
+        if($game->showGameRoles){
+            array_push($viewModel->roles, $roles);
+        }
         return $viewModel;
     }
 
@@ -84,11 +84,55 @@ class GameService
         if(!SL::Services()->validationService->validateParams(["array" => [$games], "Game" => [isset($games[0]) ? $games[0] : null]],__METHOD__)){
             return null;
         }
+        if(PlayerContext::getInstance()->isAuthorized("isAdmin", false)){
+            return $games;
+        }
         foreach ($games as $key => $game){
-            unset($games[$key]->pinCode);
+            if(!PlayerContext::getInstance()->isInGame($game)) {
+                unset($games[$key]->pinCode);
+            }
         }
         return $games;
     }
+
+
+    /**
+     * @param Game $game
+     * @return string
+     */
+    public function gamePinCodeAccessFilterByPlayerContext(Game $game){
+        if(!isset($game) || !isset($game->pinCode)){
+            return '';
+        }
+        if(PlayerContext::getInstance()->isInGame($game) || PlayerContext::getInstance()->isAuthorized("isAdmin", false)){
+            return $game->pinCode;
+        }
+        return '';
+    }
+
+
+    /**
+     * @param $game
+     * @return bool|null
+     */
+    public function hasPincodeByGame($game){
+        if(!SL::Services()->validationService->validateParams(["Game" => [$game]],__METHOD__)){
+            return null;
+        }
+        if(isset($game->pinCode) && !empty($game->pinCode)){
+            return true;
+        }
+        return false;
+    }
+
+
+    public function hasHost($game){
+        if(!SL::Services()->validationService->validateParams(["Game" => [$game]],__METHOD__)){
+            return null;
+        }
+        return (SL::Services()->queryService->queryCountOccupiedHostsForGame($game) > 0);
+    }
+
 
     /**
      * @param string $name
@@ -122,7 +166,7 @@ class GameService
         $game->gid = RandGenService::getInstance()->generateId($name);
         $game->createdOn = $date->getTimestamp();
         $game->creatorPlayerId = $player->id;
-        $game->pinCode = $gameOptions["pinCode"];
+        $game->pinCode = $gameOptions['hasPinCode'] ? $gameOptions["pinCode"] : '';
         $game->status = "open";
         $game->startPhase = $gameOptions["startPhase"];
         $game->isPublicListed = $gameOptions["isPublicListed"];

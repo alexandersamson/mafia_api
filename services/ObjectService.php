@@ -12,7 +12,7 @@ class ObjectService
      * @param object $model
      * @param string $table (= null)
      * @param string $andOr (= "AND")
-     * @return object|null
+     * @return mixed|null
      */
     public function getSingleObject(array $query, object $model, string $table = '', string $andOr = "AND"){
         if($table == NULL){
@@ -55,6 +55,11 @@ class ObjectService
         return $objects;
     }
 
+    /**
+     * @param $data
+     * @param $model
+     * @return mixed|null
+     */
     public function dbaseDataToSingleObject($data, $model){
         if($data == NULL){
             return null;

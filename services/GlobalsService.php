@@ -2,7 +2,16 @@
 
 class GlobalsService
 {
+
     private static $instance = null;
+
+    public static $appName = 'Mafia API';
+    public static $apiVersion = '0.1.0';
+    public static $publicLink = 'http://mafia.api';
+    public static $corsAllowOrigin = 'http://localhost:4200';
+    public static $tokenExpiresAfter = 31556926; // one year
+    public static $tokenJsonPropertyName = 'playerToken';
+    public static $tokenJsonPropertyNameAlt = 'player_token';
 
     public static $data = 'data';
     public static $pagination = 'pagination';
@@ -53,7 +62,6 @@ class GlobalsService
     private $validGamePhases = ["day","vote","night"];
     private $maxGameNameLength = 32;
     private $gameHostRoleRid = "host";
-    private $inertFids= ["host", "hidden"];
     private $gameStatusJoinableArray = ["open"];
     private $apiRequests = [
         "get_public_api_key" => ["description" => "Gets a public API key for the Mafia API.", "payload"=>[]],
@@ -191,13 +199,15 @@ class GlobalsService
         return in_array(strtolower($value),$this->validGamePhases);
     }
 
-    public function getInertFids(){
-        return $this->inertFids;
+
+    /**
+     * @param string $fid
+     * @return bool
+     */
+    public function isInertFactionByFid($fid){
+        return SL::Services()->queryService->queryCountInertFactionsByFid($fid) > 0;
     }
 
-    public function isInertFid($value){
-        return in_array(strtolower($value),$this->inertFids);
-    }
 
     public function getApiRequests(){
         return $this->apiRequests;

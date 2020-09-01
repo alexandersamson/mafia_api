@@ -29,11 +29,7 @@ class GameController
     public function getJoinableGamesPage($page, $getDeleted = false){
         $data = $this->gameService->getJoinableGamesPaginated($page, $getDeleted);
         if($data != null){
-            if(!PlayerContext::getInstance()->isAuthorized("isAdmin", false)){
-                $gamesList = $this->gameService->stripPinFromGames($data["data"]);
-            }
-            JsonBuilderService::getInstance()->add($data["data"], GlobalsService::$data);
-            JsonBuilderService::getInstance()->add($data[strtolower(get_class(new Pagination()))], GlobalsService::$pagination);
+            JsonBuilderService::getInstance()->addPaginated($data);
         }
     }
 
@@ -44,6 +40,7 @@ class GameController
      * - API request: create_game
      * - Payload: (string) name, (array[string]) rids
      * - Returns: (object) create_game
+     * - Game options: isPublicListed, hasPinCode, pinCode, startPhase
      * @param $name
      * @param $rids
      * @param array|null $options
@@ -112,9 +109,11 @@ class GameController
     public function join($gid, $enteredGamePin = ""){
         $game = $this->gameService->getGameByGid($gid);
         if(!is_object($game)){
+            JsonBuilderService::getInstance()->add(["error" => "This game does not exist"], GlobalsService::$data);
             return false;
         }
         if(!$this->gameService->checkPreJoinGame($game, $enteredGamePin)){
+            JsonBuilderService::getInstance()->add(["error" => "Can't join this game"], GlobalsService::$data);
             return false;
         }
         if($this->seatService->addPlayerToSeat($this->seatService->getRandomAvailableSeat($game), PlayerContext::getInstance()->getCurrentPlayer())) {

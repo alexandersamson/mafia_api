@@ -1,7 +1,7 @@
 <?php
 
 
-class Faction
+class FactionViewModel
 {
     public $id = null;
     public $fid = "";
@@ -17,5 +17,4 @@ class Faction
     public $powerLevel = 0;
     public $isInert = 0;
     public $deleted = false;
-
 }

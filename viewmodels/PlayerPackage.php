@@ -9,7 +9,10 @@ class PlayerPackage
     public $isAlive = true;
     public $isAtHome = true;
     public $knowsOwnRole = false;
+    public $knowsOwnFaction = false;
     public $hasRoleExposed = false;
+    public $hasFactionExposed= false;
+    public $hasTypeExposed = false;
     public $hasInventoryExposed = false;
     public $lastWill = '';
     public $gameEvents = []; // gameEvent objects
@@ -17,9 +20,8 @@ class PlayerPackage
     public $visitors = []; //(stripped) Player objects
     public $abilities = []; // Ability objects
     public $inventory = []; // Item objects + count
-    public $playersInGame = []; // (stripped) Player objects (name, discriminator, alive/dead, rid (if dead)
-    public $rolesInGame = []; // Role objects
     public $banned = false;
+    public $isHost = false;
 
 
 

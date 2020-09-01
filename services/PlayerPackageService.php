@@ -34,15 +34,17 @@ class PlayerPackageService
         //public $visitsPlayerId = null;
         //public $knowsOwnRole = false;
         //public $hasRoleExposed = false;
-        //public $fid = "";
-        //public $originalFid = "";
+        //public $factionId = "";
+        //public $originalFactionId = "";
         //public $abilities =[];
         //public $inventory = [];
         //public $banned = false;
 
 
+        $isHost = false;
         $started = false;
         $knowsOwnRole = false;
+        $knowsOwnFaction = false;
         $canSeeGameRoles = false;
         $hasRoleExposed = false;
         $hasInventoryExposed = false;
@@ -70,28 +72,39 @@ class PlayerPackageService
         if($seat->knowsOwnRole){
             $knowsOwnRole = true;
         }
+        if($seat->knowsOwnFaction){
+            $knowsOwnFaction = true;
+        }
         if($game->showGameRoles){
             $canSeeGameRoles = true;
         }
-        if($seat->hasRoleExposed){
-            $hasRoleExposed = true;
+        if(PlayerContext::getInstance()->isHostOfGame($game)){
+            $isHost = true;
         }
 
         //Filling up the model.
-        $playerPackage->game = $game;
-        $playerPackage->playersInGame = SL::Services()->playerService->getPublicCoPlayersByGame($game);
+        $playerPackage->game = new GameView($game);
+        $playerPackage->isHost = $isHost;
+        $playerPackage->game->players = SL::Services()->playerService->getPublicCoPlayersByGame($game, $isHost);
         //Fill these when game is started only
-        if($started){
+        if($started || $isHost){
             $playerPackage->lastWill = $seat->lastWill;
             $playerPackage->isAlive = $seat->isAlive;
             $playerPackage->isAtHome = $seat->isAtHome;
+            $playerPackage->knowsOwnRole = $seat->knowsOwnRole;
+            $playerPackage->knowsOwnFaction = $seat->knowsOwnFaction;
             $playerPackage->hasRoleExposed = $seat->hasRoleExposed;
+            $playerPackage->hasFactionExposed = $seat->hasFactionExposed;
+            $playerPackage->hasTypeExposed = $seat->hasTypeExposed;
+            $playerPackage->hasInventoryExposed = $seat->hasInventoryExposed;
         }
-        if($canSeeGameRoles){
-            $playerPackage->rolesInGame = SL::Services()->roleService->getOriginalRolesByGame($game);
+        if($canSeeGameRoles || $isHost){
+            $playerPackage->game->roles = SL::Services()->roleService->getOriginalRolesByGame($game);
         }
-        if($knowsOwnRole){
+        if($knowsOwnRole || $isHost){
             $playerPackage->role = SL::Services()->roleService->getCurrentRoleFromSeat($seat);
+        }
+        if($knowsOwnFaction || $isHost){
             $playerPackage->faction = SL::Services()->factionService->getFactionByPlayer($player);
         }
         return $playerPackage;

@@ -70,8 +70,8 @@ class SeatService
             }
             $seat->roleId = $role->id;
             $seat->originalRoleId = $role->id;
-            $seat->fid = $role->fid;
-            $seat->originalFid = $role->fid;
+            $seat->factionId = $role->factionId;
+            $seat->originalFactionId = $role->factionId;
             $seat->abilities = $role->abilities;
             $seat->inventory = $role->inventory;
         }
@@ -150,7 +150,7 @@ class SeatService
         $seat->visitsPlayerId = null;
         $seat->knowsOwnRole = false;
         $seat->hasRoleExposed = false;
-        $seat->fid = $seat->originalFid;
+        $seat->factionId = $seat->originalFactionId;
         $seat->inventory = $role->inventory;
         $seat->abilities = $role->abilities;
         $seat->banned = false;
@@ -163,7 +163,7 @@ class SeatService
                 "visits_player_id" => $seat->visitsPlayerId,
                 "knows_own_role" => $seat->knowsOwnRole,
                 "has_role_exposed" => $seat->hasRoleExposed,
-                "fid" => $seat->fid,
+                "faction_id" => $seat->factionId,
                 "inventory" => $seat->inventory,
                 "abilities" =>  $seat->abilities,
                 "banned" => $seat->banned
@@ -221,8 +221,8 @@ class SeatService
             [
                 "role_id" => $role->id,
                 "original_role_id" => $role->id,
-                "fid" => $role->fid,
-                "original_fid" => $role->fid,
+                "faction_id" => $role->factionId,
+                "original_faction_id" => $role->factionId,
                 "abilities" => $role->abilities,
                 "inventory" => $role->inventory
             ],
@@ -352,17 +352,20 @@ class SeatService
 
     /**
      * @param Game $game
-     * @return int|null
+     * @param bool $excludeHost
+     * @return int
      */
-    public function getCountGameSlotsAvailable(Game $game, $excludeHost = false){
+    public function getCountGameSlotsAvailable(Game $game, $excludeHost = true){
         if(!is_object($game)){
-            return null;
+            return 0;
         }
         $seats = SL::Services()->connection->findOccurrences(GlobalsService::getInstance()->getSeatsTable(), ["game_id" => $game->id, "player_id" => "IS NULL"]);
         if($excludeHost && $seats != null && $seats > 0){
-            $seats --;
+            if(SL::Services()->gameService->hasHost($game) === false) {
+                $seats--;
+            }
         }
-        return $seats;
+        return $seats ?? 0;
     }
 
     /**

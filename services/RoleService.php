@@ -56,9 +56,7 @@ class RoleService
      * @return array|null
      */
     public function getRolesByFid($fid, $getDeleted = false){
-        if(SL::Services()->validationService->validateParams(["validate_fid" => $fid, "bool" => $getDeleted], __METHOD__)) {
-            return SL::Services()->objectService->getObjects(["fid" => $fid, 'deleted' => $getDeleted], new Role);
-        }
+        SL::Services()->objectService->dbaseDataToObjects(SL::Services()->queryService->querySelectRolesByFid($fid, $getDeleted), new Role);
         return null;
     }
 
@@ -132,6 +130,16 @@ class RoleService
         return $this->getRoleByRid(GlobalsService::getInstance()->getGameHostRoleRid());
     }
 
+
+    /**
+     * @param $game
+     * @return Player|null
+     */
+    public function getHostPlayerForGame($game){
+        return SL::Services()->objectService->dbaseDataToSingleObject(SL::Services()->queryService->querySelectHostPlayerByGame($game), new Player());
+    }
+
+
     /**
      * @param $rolesArray
      * @param bool $shortenDescriptions
@@ -203,11 +211,8 @@ class RoleService
      */
     public function addPowerLevelsToFactions($factions, $roles){
         foreach ($roles as $role){
-            if ($role->fid == GlobalsService::getInstance()->isInertFid($role->fid)) {
-                continue;
-            }
             foreach ($factions as $key => $faction) {
-                if(isset($factions[$key]->powerLevel) && isset($factions[$key]->fid) && $factions[$key]->fid === $role->fid){
+                if(isset($factions[$key]->powerLevel) && isset($factions[$key]->id) && !$faction->isInert && $factions[$key]->id === $role->factionId){
                     $factions[$key]->powerLevel += (int)$role->balancePower;
                 }
             }
@@ -215,3 +220,5 @@ class RoleService
         return $factions;
     }
 }
+
+

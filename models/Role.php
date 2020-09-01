@@ -10,7 +10,7 @@ class Role
     public $balancePower = "";
     public $description = "";
     public $imageUrl= "";
-    public $fid = "";
+    public $factionId = "";
     public $abilities = [];
     public $inventory = [];
     public $deleted = false;

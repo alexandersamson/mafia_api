@@ -58,7 +58,7 @@ class ValidationService
                         return false;
                     }
                     return true;
-                } else if (strtolower($type) === "validate_fid" || strtolower($type) === "validate_fid") {
+                } else if (strtolower($type) === "validate_fid" || strtolower($type) === "is_valid_fid") {
                     if (!is_string($param)) {
                         MessageService::getInstance()->add('error', "[$callingMethod] - Expected [string]. Got [" . gettype($param) . "]");
                         return false;
@@ -92,9 +92,54 @@ class ValidationService
                         return false;
                     }
                     return true;
+                } else if (strtolower($type) === "player_name_string") {
+                    if (!is_string($param)) {
+                        MessageService::getInstance()->add('error', "[$callingMethod] - Expected [string]. Got [" . gettype($param) . "]");
+                        return false;
+                    }
+                    if (strlen($param) < 2 || strlen($param) > 20) {
+                        MessageService::getInstance()->add('error', "[$callingMethod] - Expected [strlen 2-20]. Got [strlen" . strlen($param) . "]");
+                        return false;
+                    }
+                    if (!preg_match('/^[0-9a-zA-Z_ -]*$/', $param)) {
+                        MessageService::getInstance()->add('error', "[$callingMethod] - Expected [valid username chars]. Got invalid chars");
+                        return false;
+                    }
+                    return true;
+                } else if (strtolower($type) === "hex_id_string" || strtolower($type) === "hex_64_string") {
+                    if (!is_string($param)) {
+                        MessageService::getInstance()->add('error', "[$callingMethod] - Expected [string]. Got [" . gettype($param) . "]");
+                        return false;
+                    }
+                    if (strlen($param) !=  64) {
+                        MessageService::getInstance()->add('error', "[$callingMethod] - Expected [strlen 64]. Got [strlen" . strlen($param) . "]");
+                        return false;
+                    }
+                    if (!preg_match('/^[0-9a-fA-F]*$/', $param)) {
+                        MessageService::getInstance()->add('error', "[$callingMethod] - Expected [HEX chars]. Got invalid chars");
+                        return false;
+                    }
+                    return true;
+                } else if (strtolower($type) === "token_string" || strtolower($type) === "token_string") {
+                    if (!is_string($param)) {
+                        MessageService::getInstance()->add('error', "[$callingMethod] - Expected [string]. Got [" . gettype($param) . "]");
+                        return false;
+                    }
+                    if (strlen($param) !=  128) {
+                        MessageService::getInstance()->add('error', "[$callingMethod] - Expected [strlen 128]. Got [strlen" . strlen($param) . "]");
+                        return false;
+                    }
+                    if (!preg_match('/^[0-9a-fA-F]*$/', $param)) {
+                        MessageService::getInstance()->add('error', "[$callingMethod] - Expected [HEX chars]. Got invalid chars");
+                        return false;
+                    }
+                    return true;
                 } else {
                     if (is_object($param)) {
-                        if((get_class($param) === "PlayerPublicViewModel") && (strtolower($type) === 'player')){
+                        if(((get_class($param) === "PlayerExtendedViewModelPublic") || (get_class($param) === "PlayerViewModelPublic") || (get_class($param) === "PlayerViewModelTokenizedPublic")) && (strtolower($type) === 'player')){
+                            return true;
+                        }
+                        if(((get_class($param) === "GameView") || (get_class($param) === "Game")) && (strtolower($type) === 'game')){
                             return true;
                         }
                         if (strtolower(get_class($param)) === strtolower($type)) {
@@ -113,6 +158,7 @@ class ValidationService
     public function validateOptions(string $method, $options){
         if($method == "createNewGame"){
             $defaultOptions["isPublicListed"] = true;
+            $defaultOptions["hasPinCode"] = true;
             $defaultOptions["startPhase"] = "day";
             $defaultOptions["pinCode"] = RandGenService::getInstance()->generateGamePin();
             if($options == null){
@@ -120,6 +166,7 @@ class ValidationService
             }
             $validators = [
                 "isPublicListed" => "bool",
+                "hasPinCode" => "bool",
                 "startPhase" => "validate_string_game_phase",
                 "pinCode" => "validate_string_pin_code"
             ];

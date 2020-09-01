@@ -34,6 +34,8 @@ $migrations = [
   `is_superadmin` tinyint(1) NOT NULL DEFAULT 0,
   `is_admin` tinyint(1) NOT NULL DEFAULT 0,
   `is_moderator` tinyint(1) NOT NULL DEFAULT 0,
+  `token` varchar(128) NOT NULL COMMENT 'sha3-512',
+  `token_expires_on` int(12) NOT NULL
   PRIMARY KEY (id));",
 
     3 => "CREATE TABLE IF NOT EXISTS `roles` (
@@ -44,20 +46,20 @@ $migrations = [
   `balance_power` int(4) NOT NULL DEFAULT 100, 
   `description` varchar(1024) NOT NULL DEFAULT 'No description',
   `image_url` varchar(256) NOT NULL,
-  `fid` varchar(16),
+  `faction_id` int(11) NOT NULL,
   `abilities` varchar(256),
   `inventory` varchar(256),
   `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (id));",
 
-    4 => "INSERT INTO `roles` (`id`, `rid`, `name`, `type`, `balance_power`, `description`, `image_url`, `fid`, `abilities`, `inventory`, `deleted`) VALUES
-(1, 'host', 'Game Host', 'Host', 0, 'The game host and moderator of the game. Not really a player, but the storyteller.', '', 'host', NULL, NULL, 0),
-(2, 'citizen', 'Citizen', 'Innocent', 100, 'Just a generic citizen. Citizens have no special abilities. Their only power is within their vote during the day.', '', 'town', 'voteday', NULL, 0),
-(3, 'mafia', 'Mafia Mobster', 'Killer', 250, 'A mafia goon, doing Godfathers\' dirty work. Can collectively kill someone at night in collaboration with other mobsters. When there is a Godfather alive, he will overrule the choice of target', '', 'mafia', 'voteday;mafkill', NULL, 0),
-(4, 'gfather', 'Godfather', 'Deceptive', 350, 'The mafia boss himself. When investigated at night by an investigator, he will appear as \'innocent\' on the report. Also the Godfather can overrule the mobsters\' decisions on who to kill at night.', '', 'mafia', 'voteday;mafkill;appinno', NULL, 0),
-(5, 'igator', 'Investigator', 'Investigative', 200, 'The Investigator can choose someone each night to investigate. The investigator will learn the role type of the targeted person.', '', 'town', 'voteday;investigate', NULL, 0),
-(6, 'doctor', 'Medical Doctor', 'Supportive', 150, 'The Medical Doctor can choose to heal someone at night. When the visited person was attacked, they will not die in effect. This ability can be used 2 times during the entire game.', '', 'town', 'voteday;docheal', 'medkit;medkit', 0),
-(7, 'skiller', 'Serial Killer', 'Killer', 350, 'The Serial Killer is a third-party murderer. They will act alone and will win when they are the sole survivor in town. Can choose a victim every night. When not going out for a kill in the night, they will instead kill everyone who visits them instead. This will reveal the identity of the Serial Killer though.', '', 'thirdp', 'voteday;skill;skillhome', NULL, 0);
+    4 => "INSERT INTO `roles` (`id`, `rid`, `name`, `type`, `balance_power`, `description`, `image_url`, `faction_id`, `abilities`, `inventory`, `deleted`) VALUES
+(1, 'host', 'Game Host', 'Host', 0, 'The game host and moderator of the game. Not really a player, but the storyteller.', '', 1, NULL, NULL, 0),
+(2, 'citizen', 'Citizen', 'Innocent', 100, 'Just a generic citizen. Citizens have no special abilities. Their only power is within their vote during the day.', '', 2, 'voteday', NULL, 0),
+(3, 'mafia', 'Mafia Mobster', 'Killer', 250, 'A mafia goon, doing Godfathers\' dirty work. Can collectively kill someone at night in collaboration with other mobsters. When there is a Godfather alive, he will overrule the choice of target', '', 3, 'voteday;mafkill', NULL, 0),
+(4, 'gfather', 'Godfather', 'Deceptive', 350, 'The mafia boss himself. When investigated at night by an investigator, he will appear as \'innocent\' on the report. Also the Godfather can overrule the mobsters\' decisions on who to kill at night.', '', 3, 'voteday;mafkill;appinno', NULL, 0),
+(5, 'igator', 'Investigator', 'Investigative', 200, 'The Investigator can choose someone each night to investigate. The investigator will learn the role type of the targeted person.', '', 2, 'voteday;investigate', NULL, 0),
+(6, 'doctor', 'Medical Doctor', 'Supportive', 150, 'The Medical Doctor can choose to heal someone at night. When the visited person was attacked, they will not die in effect. This ability can be used 2 times during the entire game.', '', 2, 'voteday;docheal', 'medkit;medkit', 0),
+(7, 'skiller', 'Serial Killer', 'Killer', 350, 'The Serial Killer is a third-party murderer. They will act alone and will win when they are the sole survivor in town. Can choose a victim every night. When not going out for a kill in the night, they will instead kill everyone who visits them instead. This will reveal the identity of the Serial Killer though.', '', 4, 'voteday;skill;skillhome', NULL, 0);
 ",
 
     5 => "CREATE TABLE IF NOT EXISTS `seats` (
@@ -72,12 +74,16 @@ $migrations = [
           `is_at_home` tinyint(1) NOT NULL DEFAULT 1, 
           `visits_player_id` int(11),
           `knows_own_role` tinyint(1) NOT NULL DEFAULT 0,
+          `knows_own_faction` tinyint(1) NOT NULL DEFAULT 0,
           `has_role_exposed` tinyint(1) NOT NULL DEFAULT 0,
+          `has_faction_exposed` tinyint(1) NOT NULL DEFAULT 0,
+          `has_type_exposed` tinyint(1) NOT NULL DEFAULT 0,
           `has_inventory_exposed` tinyint(1) NOT NULL DEFAULT 0,
-          `fid` varchar(16),
-          `original_fid` varchar(16),
-          `abilities` varchar(256),
-          `inventory` varchar(256),
+          `faction_id` int(11),
+          `original_faction_id` int(11),
+          `abilities` varchar(256) DEFAULT NULL,
+          `inventory` varchar(256) DEFAULT NULL,
+          `buffs` varchar(256) DEFAULT NULL,
           `banned` tinyint(1) NOT NULL DEFAULT 0,
           PRIMARY KEY (id));
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -149,6 +155,7 @@ $migrations = [
   `has_faction_chat` tinyint(1) NOT NULL DEFAULT 0,
   `list_priority` int(11) NOT NULL DEFAULT 1,
   `power-level` int(11) NOT NULL DEFAULT 0,
+  `is_inert` int(1) NOT NULL DEFAULT 0,
   `deleted` tinyint(1) NOT NULL DEFAULT 0
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
     ALTER TABLE `factions`
@@ -156,11 +163,11 @@ $migrations = [
       ADD UNIQUE KEY `fid` (`fid`);
       ALTER TABLE `factions`
       MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-      INSERT INTO `factions` (`id`, `fid`, `name`, `description`, `color`, `image_url`, `win_as_whole_faction`, `wins_with_factions`, `reveal_roles_to_faction`, `has_faction_chat`, `list_priority`, `power-level`, `deleted`) VALUES
-    (1, 'town', 'Town', 'The innocent people of the town. Or an unorganized and tyrannical mob rule. It really depends.', '#009933', NULL, 1, NULL, 0, 0, 2, 0, 0),
-    (2, 'mafia', 'Mafia', 'The crafty mobsters. Seeking for \'democratic\' world domination.', '#cc0000', NULL, 1, NULL, 1, 0, 3, 0, 0),
-    (3, 'thirdp', 'Third Party', 'Lonely Loners. Vile Killers. Boring Neutrals. Healing Hermits. All of them are within this faction. Most of them win or lose on their own.', '#666699', NULL, 0, NULL, 0, 0, 4, 0, 0),
-    (4, 'host', 'Game Host', 'The game hosts\' faction. Not really sure why it\'s a faction, but hey, at least the have a faction.', '#000066', NULL, 0, NULL, 0, 0, 1, 0), 0;
+      INSERT INTO `factions` (`id`, `fid`, `name`, `description`, `color`, `image_url`, `win_as_whole_faction`, `wins_with_factions`, `reveal_roles_to_faction`, `has_faction_chat`, `list_priority`, `power-level`, `is_inert`, `deleted`) VALUES
+    (1, 'host', 'Game Host', 'The game hosts\' faction. Not really sure why it\'s a faction, but hey, at least the have a faction.', '#000066', NULL, 0, NULL, 0, 0, 1, 0, 0, 0);
+    (2, 'town', 'Town', 'The innocent people of the town. Or an unorganized and tyrannical mob rule. It really depends.', '#009933', NULL, 1, NULL, 0, 0, 2, 0, 0, 0),
+    (3, 'mafia', 'Mafia', 'The crafty mobsters. Seeking for \'democratic\' world domination.', '#cc0000', NULL, 1, NULL, 1, 0, 3, 0, 0, 0),
+    (4, 'thirdp', 'Third Party', 'Lonely Loners. Vile Killers. Boring Neutrals. Healing Hermits. All of them are within this faction. Most of them win or lose on their own.', '#666699', NULL, 0, NULL, 0, 0, 4, 0, 0, 0),
     COMMIT;"
 
 ];

@@ -14,10 +14,15 @@ class Seat
     public $isAtHome = true;
     public $visitsPlayerId = null;
     public $knowsOwnRole = false;
+    public $knowsOwnFaction = false;
     public $hasRoleExposed = false;
-    public $fid = "";
-    public $originalFid = "";
+    public $hasFactionExposed = false;
+    public $hasTypeExposed = false;
+    public $hasInventoryExposed = false;
+    public $factionId = null;
+    public $originalFactionId = null;
     public $abilities =[];
     public $inventory = [];
+    public $buffs = [];
     public $banned = false;
 }

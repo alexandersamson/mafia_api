@@ -32,8 +32,27 @@ class JsonBuilderService
         }
     }
 
-    public function ConsumeJson(){
+    public function addPaginated($dataArray){
+        JsonBuilderService::getInstance()->add($dataArray[GlobalsService::$data], GlobalsService::$data);
+        JsonBuilderService::getInstance()->add($dataArray[strtolower(get_class(new Pagination()))], GlobalsService::$pagination);
+    }
+
+    private function addDebugMessages(){
         $this->add(MessageService::getInstance()->consumeAll(),'messages');
+    }
+
+
+    private function addMeta(){
+        $this->add([
+            'version' => GlobalsService::$apiVersion,
+            'apiName' => GlobalsService::$appName,
+            'apiLink' => GlobalsService::$publicLink
+        ],'meta');
+    }
+
+    public function ConsumeJson(){
+        $this->addDebugMessages();
+        $this->addMeta();
         foreach ($this->mainArray as $key => $value){
             if(is_array($value) && count($value) < 2){
                 if(isset($value[0]) && is_array($value[0])) {

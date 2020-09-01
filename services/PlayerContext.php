@@ -9,10 +9,7 @@ class PlayerContext
 
     private function __construct()
     {
-        if (!isset($_SESSION['playercontext']['player'])){
-            $_SESSION['playercontext']['player'] = new Player();
-        }
-        $this->currentPlayer = &$_SESSION['playercontext']['player'];
+        $this->currentPlayer = null;
     }
 
     public static function getInstance()
@@ -24,98 +21,95 @@ class PlayerContext
         return self::$instance;
     }
 
-    public function checkForUpdate(){
-        if($this->currentPlayer->pid != NULL) {
-            $comparePlayer = SL::Services()->playerService->getPlayerByNameAndPid($this->currentPlayer->name, $this->currentPlayer->pid);
-            if($comparePlayer != $this->currentPlayer){
-                if($comparePlayer->pid != $this->currentPlayer->pid){
-                    $this->unsetCurrentPlayer();
-                } else {
-                    $this->currentPlayer = SL::Services()->playerService->getPlayerByPid($this->currentPlayer->pid);
-                }
+
+    public function logInPlayer($token){
+        if(!SL::Services()->validationService->validateParams(["token_string" => [$token]], __METHOD__)){
+            MessageService::getInstance()->add("error", "PlayerContext::logInPlayer - Invalid token provided; cannot login.");
+            return false;
+        }
+        $player = SL::Services()->playerService->getPlayerByValidToken($token);
+        if($player){
+            if($this->setCurrentPlayer($player)){
+                return true;
             }
+            MessageService::getInstance()->add("error", "PlayerContext::logInPlayer - Player was found, but cannot be set as currentPlayer.");
+            return false;
         }
+        MessageService::getInstance()->add("error", "PlayerContext::logInPlayer - No player found by the provided token; cannot login.");
+        return false;
     }
 
-    //TODO: routine aanpassen -> nieuwe inloggegevens overrulen altijd een sessie. Dit is nu omgedraaid
-    public function logInPlayer($name, $pid){
-        if($this->currentPlayer->pid != NULL){
-            $player = SL::Services()->playerService->getPlayerByNameAndPid($this->currentPlayer->name, $this->currentPlayer->pid);
-            if($player){
-                $this->currentPlayer = $player;
-                MessageService::getInstance()->add("info", "Player logged in via session: {$player->name}{$player->discriminator}!");
-                return;
-            }
-        }
-        if($this->setCurrentPlayerByNameAndPid($name, $pid)){
-            MessageService::getInstance()->add("userInfo", "Logged in as {$this->currentPlayer->name}{$this->currentPlayer->discriminator}." );
-            return;
-        }
-        MessageService::getInstance()->add("debug", "Not logged in.");
-    }
 
-    public function setCurrentPlayerByObject($player){
-        return $this->setCurrentPlayerByNameAndPid($player->name, $player->pid);
-    }
-
-    public function setCurrentPlayerByNameAndPid($name, $pid){
-        $this->currentPlayer = SL::Services()->playerService->getPlayerByNameAndPid($name, $pid);
-        if($this->currentPlayer) {
-            if($this->currentPlayer->deleted || $this->currentPlayer->blocked){
-                if($this->currentPlayer->blocked){
+    public function setCurrentPlayer($player){
+        if(!SL::Services()->validationService->validateParams(["Player" => [$player]], __METHOD__)){
+            return false;
+        }
+        if($player) {
+            if($player->deleted || $player->blocked){
+                if($player->blocked){
                     MessageService::getInstance()->add("debug", "Current player has been blocked.");
                 }
-                if($this->currentPlayer->deleted){
+                if($player->deleted){
                     MessageService::getInstance()->add("debug", "Current player has been deleted.");
                 }
-                $this->currentPlayer = new Player();
+                $this->currentPlayer = null;
                 return false;
             }
             $date = new DateTime();
-            $this->currentPlayer->lastSeen = $date->getTimestamp();
-            SL::Services()->playerService->updatePlayerLastSeenDate($this->currentPlayer);
+            $player->lastSeen = $date->getTimestamp();
+            SL::Services()->playerService->updatePlayerLastSeenDate($player);
+            $this->currentPlayer = $player;
             return true;
         }
         return false;
     }
 
+
     public function getCurrentPlayer(){
-        if(isset($this->currentPlayer->name) && isset($this->currentPlayer->pid)) {
-            if ($this->currentPlayer->name != null && $this->currentPlayer->pid != null) {
-                $player = SL::Services()->playerService->getPlayerByPid($this->currentPlayer->pid);
-                if(!$player){
-                    $this->currentPlayer = null;
-                    return null;
-                }
-                $this->currentPlayer = $player;
-                if($this->currentPlayer->deleted || $this->currentPlayer->blocked){
-                    if($this->currentPlayer->blocked){
-                        MessageService::getInstance()->add("debug", "Current player has been blocked.");
-                    }
-                    if($this->currentPlayer->deleted){
-                        MessageService::getInstance()->add("debug", "Current player has been deleted.");
-                    }
-                    $this->currentPlayer = null;
-                    return null;
-                }
-                return $this->currentPlayer;
+        if(
+            isset($this->currentPlayer) &&
+            isset($this->currentPlayer->name) &&
+            isset($this->currentPlayer->pid) &&
+            SL::Services()->validationService->validateParams([
+                "player_name_string" => [$this->currentPlayer->name],
+                "hex_id_string" => [$this->currentPlayer->pid]
+            ], __METHOD__))
+        {
+            $player = SL::Services()->playerService->getPlayerByPid($this->currentPlayer->pid);
+            if(!SL::Services()->validationService->validateParams(["Player" => [$player]],__METHOD__)){
+                MessageService::getInstance()->add("error", "PlayerContext::getCurrentPlayer - Current player was stored, but does not validly exist in the dbase any more.");
+                $this->currentPlayer = null;
+                return null;
             }
+            if($player->deleted || $player->blocked){
+                if($player->blocked){
+                    MessageService::getInstance()->add("error", "Current player has been blocked.");
+                }
+                if($player->deleted){
+                    MessageService::getInstance()->add("error", "Current player has been deleted.");
+                }
+                $this->currentPlayer = null;
+                return null;
+            }
+            $this->currentPlayer = $player;
+            return $this->currentPlayer;
         }
+        MessageService::getInstance()->add("error", "PlayerContext::getCurrentPlayer - Current player cannot be found or is invalid.");
+        $this->currentPlayer = null;
         return null;
     }
 
+
     /**
-     * @param string $level
+     * @param string|null $level
      * @param bool $verbose
      * @return bool
      */
-    public function isAuthorized($level = "", $verbose = true)
+    public function isAuthorized($level = null, $verbose = true)
     {
         $player = $this->getCurrentPlayer();
-        if($player == null) {
-            if($verbose){
-                MessageService::getInstance()->add("userError", MessageService::getInstance()->notLoggedInError);
-            }
+        if(!isset($player)) {
+            MessageService::getInstance()->add("userError", MessageService::getInstance()->notLoggedInError);
             return false;
         }
         if ($level == null) {
@@ -147,8 +141,25 @@ class PlayerContext
         return false;
     }
 
+
+    public function isInGame($game){
+        if(SL::Services()->queryService->queryCountPlayerIsInSpecificGame($this->currentPlayer, $game) > 0){
+            return true;
+        }
+        return false;
+    }
+
+
+    public function isHostOfGame($game){
+        if(SL::Services()->queryService->queryCountHostsByPlayerAndGame($this->currentPlayer, $game) > 0){
+            return true;
+        }
+        return false;
+    }
+
+
     public function unsetCurrentPlayer(){
         MessageService::getInstance()->add("debug", "Logging out: ".$this->currentPlayer->name.$this->currentPlayer->discriminator);
-        $this->currentPlayer = new Player();
+        $this->currentPlayer = null;
     }
 }
