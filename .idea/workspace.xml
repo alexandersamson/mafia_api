@@ -2,37 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0843a876-958a-4141-8419-e5512d37f090" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/models/PlayerToken.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewmodels/FactionViewModel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewmodels/PlayerExtendedViewModelPublic.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewmodels/PlayerViewModelTokenizedPublic.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/576ebc61-8450-40ba-81db-5b43739df72e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/576ebc61-8450-40ba-81db-5b43739df72e.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/GamePhase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/GamePhaseService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/viewmodels/GameOverviewViewModel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/viewmodels/GamePhaseSmallViewModel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/GameController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/GameController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/PlayerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/PlayerController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Faction.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/Faction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Player.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/Player.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/Role.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Seat.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/Seat.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Game.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/Game.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/GameService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/GameService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/GlobalsService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/GlobalsService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/JsonBuilderService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/JsonBuilderService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/MessageService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/MessageService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/ObjectService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/ObjectService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/PlayerContext.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/PlayerContext.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/PlayerPackageService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/PlayerPackageService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/PlayerService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/PlayerService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/QueryService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/QueryService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/RandGenService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/RandGenService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/RoleService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/RoleService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/SeatService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/SeatService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/SL.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/SL.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/ValidationService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/ValidationService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewmodels/GameView.php" beforeDir="false" afterPath="$PROJECT_DIR$/viewmodels/GameView.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewmodels/PlayerPackage.php" beforeDir="false" afterPath="$PROJECT_DIR$/viewmodels/PlayerPackage.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewmodels/PlayerPublicViewModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/viewmodels/PlayerViewModelPublic.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +74,7 @@
       <updated>1597768963560</updated>
       <workItem from="1597768964636" duration="73999000" />
       <workItem from="1597958937077" duration="158479000" />
-      <workItem from="1598321333624" duration="127656000" />
+      <workItem from="1598321333624" duration="139869000" />
     </task>
     <task id="LOCAL-00001" summary="commit1">
       <created>1598670137528</created>
@@ -96,7 +83,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598670137528</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="commit1">
+      <created>1598918833934</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1598918833934</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,10 +134,11 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="710" y="376" key="#com.jetbrains.php.refactoring.move.member.instance.PhpMoveInstanceMethodDialog#/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598039215949" />
-    <state x="-1376" y="94" key="CommitChangelistDialog2" timestamp="1598670186460">
-      <screen x="-1920" y="0" width="1920" height="1050" />
+    <state x="544" y="94" key="CommitChangelistDialog2" timestamp="1598918833214">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="-1376" y="94" key="CommitChangelistDialog2/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598670186460" />
+    <state x="544" y="94" key="CommitChangelistDialog2/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598918833214" />
     <state width="1877" height="146" key="GridCell.Tab.0.bottom" timestamp="1598321011618">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -180,23 +175,24 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="174" height="456" key="HiddenNamespacesPopup/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597771928214" />
-    <state x="-1141" y="249" key="NewPhpClassDialog" timestamp="1598827050432">
+    <state x="-1141" y="249" key="NewPhpClassDialog" timestamp="1598939256334">
       <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
-    <state x="-1141" y="249" key="NewPhpClassDialog/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598827050432" />
+    <state x="-1141" y="249" key="NewPhpClassDialog/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598939256334" />
     <state x="779" y="249" key="NewPhpClassDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598376002175" />
-    <state x="795" y="448" key="NewPhpFileDialog" timestamp="1597793626957">
+    <state x="795" y="448" key="NewPhpFileDialog" timestamp="1598926163627">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="795" y="448" key="NewPhpFileDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597793626957" />
+    <state x="795" y="448" key="NewPhpFileDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598926163627" />
     <state x="-1444" y="170" key="SettingsEditor" timestamp="1598827541879">
       <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
     <state x="-1444" y="170" key="SettingsEditor/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598827541879" />
-    <state x="-1368" y="258" key="Vcs.Push.Dialog.v2" timestamp="1598670145368">
-      <screen x="-1920" y="0" width="1920" height="1050" />
+    <state x="552" y="258" key="Vcs.Push.Dialog.v2" timestamp="1598918837889">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="-1368" y="258" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598670145368" />
+    <state x="552" y="258" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598918837889" />
     <state x="802" y="123" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1597832976061">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -219,10 +215,10 @@
     </state>
     <state x="509" y="0" width="1427" height="1037" key="dock-window-3/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598575475533" />
     <state x="-1319" y="0" width="1234" height="1037" key="dock-window-3/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597944844267" />
-    <state x="-1578" y="120" width="1106" height="772" key="find.popup" timestamp="1598841940274">
+    <state x="-1578" y="120" width="1106" height="772" key="find.popup" timestamp="1598938257579">
       <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
-    <state x="-1578" y="120" width="1106" height="772" key="find.popup/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598841940274" />
+    <state x="-1578" y="120" width="1106" height="772" key="find.popup/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1598938257579" />
     <state x="687" y="303" width="881" height="650" key="find.popup/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598381490525" />
     <state x="616" y="243" key="run.anything.popup" timestamp="1598325738666">
       <screen x="0" y="0" width="1920" height="1050" />

@@ -10,6 +10,7 @@ class SL
     public $playerService;
     public $seatService;
     public $factionService;
+    public $gamePhaseService;
     public $playerPackageService;
     public $formatService;
     public $jsonBuilderService;
@@ -27,6 +28,7 @@ class SL
         $this->playerService = new PlayerService();
         $this->seatService = new SeatService();
         $this->factionService = new FactionService();
+        $this->gamePhaseService = new GamePhaseService();
         $this->playerPackageService = new PlayerPackageService();
         $this->formatService = new FormatService();
         $this->validationService = new ValidationService();

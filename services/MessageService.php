@@ -5,7 +5,7 @@ class MessageService
 {
     private static $instance = null;
 
-    public $showDebugging = true; //turn DEBUG info on/off
+    public $showAllDebugging = true; //
     public $messages = [];
     public $messageTypes = [
         "error" => "System Error",
@@ -24,8 +24,8 @@ class MessageService
 
     private function __construct()
     {
-        if($this->showDebugging){
-            $this->add("userWarning","Debugging is ON. To turn off debugging, set '\$showDebugging' to false in file MessageService.php");
+        if($this->showAllDebugging || GlobalsService::$debug){
+            $this->add("userWarning","System debugging is ON. To turn off debugging, set '\$showAllDebugging' to false in file MessageService.php");
         }
     }
 
@@ -39,14 +39,19 @@ class MessageService
     }
 
     public function add($type, $message){
-        if($this->showDebugging) {
-            array_push($this->messages, ["type" => $this->messageTypes[$type], "message" => $message]);
+        if(GlobalsService::$debug) {
+            if ($this->showAllDebugging || substr($type, 0, 4) == 'user') {
+                array_push($this->messages, ["type" => $this->messageTypes[$type], "message" => $message]);
+            }
         }
     }
 
     public function consumeAll(){
-        $tempMessages = $this->messages;
-        unset($this->messages);
-        return $tempMessages;
+        if(GlobalsService::$debug) {
+            $tempMessages = $this->messages;
+            unset($this->messages);
+            return $tempMessages;
+        }
+        return null;
     }
 }

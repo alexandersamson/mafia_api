@@ -5,6 +5,7 @@ class GlobalsService
 
     private static $instance = null;
 
+    public static $debug = true; //TODO: turn this off
     public static $appName = 'Mafia API';
     public static $apiVersion = '0.1.0';
     public static $publicLink = 'http://mafia.api';

@@ -1,66 +1,75 @@
 <?php
 $migrations = [
-    1 => "CREATE TABLE IF NOT EXISTS `games` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `gid` varchar(64) NOT NULL UNIQUE,
-  `name` varchar(64) NOT NULL,
-  `status` varchar(16) NOT NULL DEFAULT 'open',
-  `count_days` int(11),
-  `count_nights` int(11),
-  `start_phase` varchar(16) NOT NULL DEFAULT 'day',
-  `current_phase` varchar(16),
-  `is_public_listed` tinyint(1) NOT NULL DEFAULT 1,
-  `show_game_roles` tinyint(1) NOT NULL DEFAULT 0,
-  `pin_code` varchar(16) DEFAULT '000000',
-  `creator_player_id` int(11) NOT NULL,
-  `created_on` varchar(32) NOT NULL DEFAULT current_timestamp(),
-  `deleted` tinyint(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (id));
-  COMMIT;",
+    1 => "CREATE TABLE `games` (
+          `id` int(11) NOT NULL,
+          `gid` varchar(64) NOT NULL,
+          `name` varchar(32) NOT NULL,
+          `status` varchar(16) NOT NULL DEFAULT 'open',
+          `count_days` int(11) DEFAULT NULL,
+          `host_keeps_time` tinyint(1) DEFAULT 1,
+          `next_phase_timestamp` int(12) DEFAULT NULL,
+          `paused_time_left` int(11) NOT NULL DEFAULT 0,
+          `start_phase_id` int(11) NOT NULL DEFAULT 1,
+          `current_phase_id` int(11) DEFAULT 1,
+          `show_game_roles` tinyint(1) NOT NULL DEFAULT 0,
+          `is_public_listed` tinyint(1) NOT NULL DEFAULT 1,
+          `pin_code` varchar(16) DEFAULT '0000',
+          `creator_player_id` int(11) NOT NULL,
+          `created_on` int(12) NOT NULL DEFAULT 0,
+          `deleted` tinyint(1) NOT NULL DEFAULT 0
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+        ALTER TABLE `games`
+          ADD PRIMARY KEY (`id`),
+          ADD UNIQUE KEY `gid` (`gid`);
+        ALTER TABLE `games`
+          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+        INSERT INTO `games` (`id`, `gid`, `name`, `status`, `count_days`, `host_keeps_time`, `next_phase_timestamp`, `paused_time_left`, `start_phase_id`, `current_phase_id`, `show_game_roles`, `is_public_listed`, `pin_code`, `creator_player_id`, `created_on`, `deleted`) VALUES
+        (1, '8435e28ed631fb9f6a1e6cc74c1631dd640bbf3e691f67db96aea9cf9a0fa7fa', 'Test_Game', 'open', 0, 0, 0, 0, 1, 1, 0, 1, '0000', 1, '1598836487', 0);
+        COMMIT;",
 
     2 => "CREATE TABLE IF NOT EXISTS `players` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pid` varchar(64) NOT NULL UNIQUE,
-  `name` varchar(64) NOT NULL,
-  `discriminator` varchar(32) NOT NULL DEFAULT '#0000',
-  `created_on` varchar(32) NOT NULL DEFAULT current_timestamp(),
-  `last_seen` varchar(32) NOT NULL DEFAULT current_timestamp(),
-  `email` varchar(128),
-  `password` varchar(128),
-  `games_played` int(11) NOT NULL DEFAULT 0,
-  `games_hosted` int(11) NOT NULL DEFAULT 0,
-  `blocked` tinyint(1) NOT NULL DEFAULT 0,
-  `deleted` tinyint(1) NOT NULL DEFAULT 0,
-  `is_superadmin` tinyint(1) NOT NULL DEFAULT 0,
-  `is_admin` tinyint(1) NOT NULL DEFAULT 0,
-  `is_moderator` tinyint(1) NOT NULL DEFAULT 0,
-  `token` varchar(128) NOT NULL COMMENT 'sha3-512',
-  `token_expires_on` int(12) NOT NULL
-  PRIMARY KEY (id));",
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `pid` varchar(64) NOT NULL UNIQUE,
+          `name` varchar(64) NOT NULL,
+          `discriminator` varchar(32) NOT NULL DEFAULT '#0000',
+          `created_on` varchar(32) NOT NULL DEFAULT current_timestamp(),
+          `last_seen` varchar(32) NOT NULL DEFAULT current_timestamp(),
+          `email` varchar(128),
+          `password` varchar(128),
+          `games_played` int(11) NOT NULL DEFAULT 0,
+          `games_hosted` int(11) NOT NULL DEFAULT 0,
+          `blocked` tinyint(1) NOT NULL DEFAULT 0,
+          `deleted` tinyint(1) NOT NULL DEFAULT 0,
+          `is_superadmin` tinyint(1) NOT NULL DEFAULT 0,
+          `is_admin` tinyint(1) NOT NULL DEFAULT 0,
+          `is_moderator` tinyint(1) NOT NULL DEFAULT 0,
+          `token` varchar(128) NOT NULL COMMENT 'sha3-512',
+          `token_expires_on` int(12) NOT NULL
+          PRIMARY KEY (id));",
 
     3 => "CREATE TABLE IF NOT EXISTS `roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `rid` varchar(16) NOT NULL UNIQUE,
-  `name` varchar(64) NOT NULL,
-  `type` varchar(32) NOT NULL,
-  `balance_power` int(4) NOT NULL DEFAULT 100, 
-  `description` varchar(1024) NOT NULL DEFAULT 'No description',
-  `image_url` varchar(256) NOT NULL,
-  `faction_id` int(11) NOT NULL,
-  `abilities` varchar(256),
-  `inventory` varchar(256),
-  `deleted` tinyint(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (id));",
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `rid` varchar(16) NOT NULL UNIQUE,
+          `name` varchar(64) NOT NULL,
+          `type` varchar(32) NOT NULL,
+          `balance_power` int(4) NOT NULL DEFAULT 100, 
+          `description` varchar(1024) NOT NULL DEFAULT 'No description',
+          `image_url` varchar(256) NOT NULL,
+          `faction_id` int(11) NOT NULL,
+          `abilities` varchar(256),
+          `inventory` varchar(256),
+          `deleted` tinyint(1) NOT NULL DEFAULT 0,
+          PRIMARY KEY (id));",
 
     4 => "INSERT INTO `roles` (`id`, `rid`, `name`, `type`, `balance_power`, `description`, `image_url`, `faction_id`, `abilities`, `inventory`, `deleted`) VALUES
-(1, 'host', 'Game Host', 'Host', 0, 'The game host and moderator of the game. Not really a player, but the storyteller.', '', 1, NULL, NULL, 0),
-(2, 'citizen', 'Citizen', 'Innocent', 100, 'Just a generic citizen. Citizens have no special abilities. Their only power is within their vote during the day.', '', 2, 'voteday', NULL, 0),
-(3, 'mafia', 'Mafia Mobster', 'Killer', 250, 'A mafia goon, doing Godfathers\' dirty work. Can collectively kill someone at night in collaboration with other mobsters. When there is a Godfather alive, he will overrule the choice of target', '', 3, 'voteday;mafkill', NULL, 0),
-(4, 'gfather', 'Godfather', 'Deceptive', 350, 'The mafia boss himself. When investigated at night by an investigator, he will appear as \'innocent\' on the report. Also the Godfather can overrule the mobsters\' decisions on who to kill at night.', '', 3, 'voteday;mafkill;appinno', NULL, 0),
-(5, 'igator', 'Investigator', 'Investigative', 200, 'The Investigator can choose someone each night to investigate. The investigator will learn the role type of the targeted person.', '', 2, 'voteday;investigate', NULL, 0),
-(6, 'doctor', 'Medical Doctor', 'Supportive', 150, 'The Medical Doctor can choose to heal someone at night. When the visited person was attacked, they will not die in effect. This ability can be used 2 times during the entire game.', '', 2, 'voteday;docheal', 'medkit;medkit', 0),
-(7, 'skiller', 'Serial Killer', 'Killer', 350, 'The Serial Killer is a third-party murderer. They will act alone and will win when they are the sole survivor in town. Can choose a victim every night. When not going out for a kill in the night, they will instead kill everyone who visits them instead. This will reveal the identity of the Serial Killer though.', '', 4, 'voteday;skill;skillhome', NULL, 0);
-",
+        (1, 'host', 'Game Host', 'Host', 0, 'The game host and moderator of the game. Not really a player, but the storyteller.', '', 1, NULL, NULL, 0),
+        (2, 'citizen', 'Citizen', 'Innocent', 100, 'Just a generic citizen. Citizens have no special abilities. Their only power is within their vote during the day.', '', 2, 'voteday', NULL, 0),
+        (3, 'mafia', 'Mafia Mobster', 'Killer', 250, 'A mafia goon, doing Godfathers\' dirty work. Can collectively kill someone at night in collaboration with other mobsters. When there is a Godfather alive, he will overrule the choice of target', '', 3, 'voteday;mafkill', NULL, 0),
+        (4, 'gfather', 'Godfather', 'Deceptive', 350, 'The mafia boss himself. When investigated at night by an investigator, he will appear as \'innocent\' on the report. Also the Godfather can overrule the mobsters\' decisions on who to kill at night.', '', 3, 'voteday;mafkill;appinno', NULL, 0),
+        (5, 'igator', 'Investigator', 'Investigative', 200, 'The Investigator can choose someone each night to investigate. The investigator will learn the role type of the targeted person.', '', 2, 'voteday;investigate', NULL, 0),
+        (6, 'doctor', 'Medical Doctor', 'Supportive', 150, 'The Medical Doctor can choose to heal someone at night. When the visited person was attacked, they will not die in effect. This ability can be used 2 times during the entire game.', '', 2, 'voteday;docheal', 'medkit;medkit', 0),
+        (7, 'skiller', 'Serial Killer', 'Killer', 350, 'The Serial Killer is a third-party murderer. They will act alone and will win when they are the sole survivor in town. Can choose a victim every night. When not going out for a kill in the night, they will instead kill everyone who visits them instead. This will reveal the identity of the Serial Killer though.', '', 4, 'voteday;skill;skillhome', NULL, 0);
+        ",
 
     5 => "CREATE TABLE IF NOT EXISTS `seats` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -143,31 +152,54 @@ $migrations = [
        ",
 
     7 => "CREATE TABLE `factions` (
-  `id` int(11) NOT NULL,
-  `fid` varchar(16) NOT NULL,
-  `name` varchar(32) NOT NULL,
-  `description` varchar(256) DEFAULT NULL,
-  `color` varchar(16) NOT NULL DEFAULT '#707070',
-  `image_url` varchar(128) DEFAULT NULL,
-  `win_as_whole_faction` tinyint(1) NOT NULL DEFAULT 1,
-  `wins_with_factions` varchar(64) DEFAULT NULL,
-  `reveal_roles_to_faction` tinyint(1) NOT NULL DEFAULT 0,
-  `has_faction_chat` tinyint(1) NOT NULL DEFAULT 0,
-  `list_priority` int(11) NOT NULL DEFAULT 1,
-  `power-level` int(11) NOT NULL DEFAULT 0,
-  `is_inert` int(1) NOT NULL DEFAULT 0,
-  `deleted` tinyint(1) NOT NULL DEFAULT 0
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-    ALTER TABLE `factions`
-      ADD PRIMARY KEY (`id`),
-      ADD UNIQUE KEY `fid` (`fid`);
-      ALTER TABLE `factions`
-      MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-      INSERT INTO `factions` (`id`, `fid`, `name`, `description`, `color`, `image_url`, `win_as_whole_faction`, `wins_with_factions`, `reveal_roles_to_faction`, `has_faction_chat`, `list_priority`, `power-level`, `is_inert`, `deleted`) VALUES
-    (1, 'host', 'Game Host', 'The game hosts\' faction. Not really sure why it\'s a faction, but hey, at least the have a faction.', '#000066', NULL, 0, NULL, 0, 0, 1, 0, 0, 0);
-    (2, 'town', 'Town', 'The innocent people of the town. Or an unorganized and tyrannical mob rule. It really depends.', '#009933', NULL, 1, NULL, 0, 0, 2, 0, 0, 0),
-    (3, 'mafia', 'Mafia', 'The crafty mobsters. Seeking for \'democratic\' world domination.', '#cc0000', NULL, 1, NULL, 1, 0, 3, 0, 0, 0),
-    (4, 'thirdp', 'Third Party', 'Lonely Loners. Vile Killers. Boring Neutrals. Healing Hermits. All of them are within this faction. Most of them win or lose on their own.', '#666699', NULL, 0, NULL, 0, 0, 4, 0, 0, 0),
-    COMMIT;"
+        `id` int(11) NOT NULL,
+        `fid` varchar(16) NOT NULL,
+        `name` varchar(32) NOT NULL,
+        `description` varchar(256) DEFAULT NULL,
+        `color` varchar(16) NOT NULL DEFAULT '#707070',
+        `image_url` varchar(128) DEFAULT NULL,
+        `win_as_whole_faction` tinyint(1) NOT NULL DEFAULT 1,
+        `wins_with_factions` varchar(64) DEFAULT NULL,
+        `reveal_roles_to_faction` tinyint(1) NOT NULL DEFAULT 0,
+        `has_faction_chat` tinyint(1) NOT NULL DEFAULT 0,
+        `list_priority` int(11) NOT NULL DEFAULT 1,
+        `power-level` int(11) NOT NULL DEFAULT 0,
+        `is_inert` int(1) NOT NULL DEFAULT 0,
+        `deleted` tinyint(1) NOT NULL DEFAULT 0
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+        ALTER TABLE `factions`
+          ADD PRIMARY KEY (`id`),
+          ADD UNIQUE KEY `fid` (`fid`);
+          ALTER TABLE `factions`
+          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+          INSERT INTO `factions` (`id`, `fid`, `name`, `description`, `color`, `image_url`, `win_as_whole_faction`, `wins_with_factions`, `reveal_roles_to_faction`, `has_faction_chat`, `list_priority`, `power-level`, `is_inert`, `deleted`) VALUES
+        (1, 'host', 'Game Host', 'The game hosts\' faction. Not really sure why it\'s a faction, but hey, at least the have a faction.', '#000066', NULL, 0, NULL, 0, 0, 1, 0, 0, 0);
+        (2, 'town', 'Town', 'The innocent people of the town. Or an unorganized and tyrannical mob rule. It really depends.', '#009933', NULL, 1, NULL, 0, 0, 2, 0, 0, 0),
+        (3, 'mafia', 'Mafia', 'The crafty mobsters. Seeking for \'democratic\' world domination.', '#cc0000', NULL, 1, NULL, 1, 0, 3, 0, 0, 0),
+        (4, 'thirdp', 'Third Party', 'Lonely Loners. Vile Killers. Boring Neutrals. Healing Hermits. All of them are within this faction. Most of them win or lose on their own.', '#666699', NULL, 0, NULL, 0, 0, 4, 0, 0, 0),
+        COMMIT;",
+
+
+     8 => "CREATE TABLE `game_phases` (
+        `id` int(11) NOT NULL,
+          `gpid` varchar(16) NOT NULL,
+          `name` varchar(16) NOT NULL,
+          `events` VARCHAR(128) NULL,
+          `is_night` TINYINT(1) NOT NULL DEFAULT '0',
+          `duration` int(11) NOT NULL DEFAULT 300 COMMENT 'in seconds',
+          `next_phase_id` int(11) NOT NULL,
+          `description` varchar(256) NOT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+        ALTER TABLE `game_phases`
+          ADD PRIMARY KEY (`id`);
+        ALTER TABLE `game_phases`
+          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+        INSERT INTO `game_phases` (`id`, `gpid`, `name`, `duration`, `next_phase_id`, `description`) VALUES
+        (1, 'day', 'Day', 480, 2, 'Day phase. Talking. Accusing. Lying. Finger pointing. This is the time to do it.'),
+        (2, 'vote', 'Vote', 180, 3, 'Voting phase. The town will vote on who to condemn today.'),
+        (3, 'sunset', 'Sunset', 60, 4, 'When the sun sets, just before night. Usually someone will be condemned around this hour of the day.'),
+        (4, 'night', 'Night', 300, 5, 'The night. Where things happen...'),
+        (5, 'sunrise', 'Sunrise', 60, 1, 'When the sun rises. What happened at night will be revealed now.');
+        COMMIT;"
 
 ];

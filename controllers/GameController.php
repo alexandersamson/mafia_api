@@ -39,7 +39,7 @@ class GameController
      * - Clearance needed: [Logged in]
      * - API request: create_game
      * - Payload: (string) name, (array[string]) rids
-     * - Returns: (object) create_game
+     * - Returns: (Game)  data[]
      * - Game options: isPublicListed, hasPinCode, pinCode, startPhase
      * @param $name
      * @param $rids
@@ -66,6 +66,32 @@ class GameController
         }
         JsonBuilderService::getInstance()->add($game, GlobalsService::$data);
         MessageService::getInstance()->add('userSuccess', "Game created: " . $game->gid);
+        return true;
+    }
+
+
+    /**
+     * PUBLIC API METHOD
+     * - API request: cp_get_game_overview
+     * - Returns: (GameOverviewViewModel) data[]
+     * @return bool
+     */
+    public function getGameOverviewForCurrentPlayer(){
+        if(!PlayerContext::getInstance()->isAuthorized()){
+            MessageService::getInstance()->add('error',"(GameController::getGameOverviewForCurrentPlayer) Can't get game for current player: User probably not logged in");
+            return false;
+        }
+        if(!PlayerContext::getInstance()->isInAGame()){
+            MessageService::getInstance()->add('error',"(GameController::getGameOverviewForCurrentPlayer) Can't get game for current player: User probably not in a game");
+            return false;
+        }
+        $game = SL::Services()->gameService->getGameByPlayer(PlayerContext::getInstance()->getCurrentPlayer());
+        if(!isset($game)){
+            MessageService::getInstance()->add('error',"(GameController::getGameOverviewForCurrentPlayer) Can't get game for current player: Could  probably not retrieve it from the db");
+            return false;
+        }
+        $gameOverview = new GameOverviewViewModel($game);
+        JsonBuilderService::getInstance()->add($gameOverview, GlobalsService::$data);
         return true;
     }
 

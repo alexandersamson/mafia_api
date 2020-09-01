@@ -57,6 +57,26 @@ class PlayerController
     }
 
 
+
+
+        /**
+         * PUBLIC API METHOD
+         * cp_get_players_game_overview
+         */
+        public function getPlayerOverviewForCurrentPlayersGame(){
+            if(!PlayerContext::getInstance()->isAuthorized()){
+                MessageService::getInstance()->add('error',"(GameController::getPlayerOverviewForCurrentPlayersGame) Can't get players for current player: User probably not logged in");
+                return false;
+            }
+            if(!PlayerContext::getInstance()->isInAGame()){
+                MessageService::getInstance()->add('error',"(GameController::getPlayerOverviewForCurrentPlayersGame) Can't get players for current player: User probably not in a game");
+                return false;
+            }
+            SL::Services()->playerService->getAllPlayersForGameByPlayer(PlayerContext::getInstance()->getCurrentPlayer());
+            //TODO: Hier komt een array uit met spelers, deze omzetten naar kleine, publieke spelers en dan array returnen!
+        }
+
+
     function create($name){
         if(PlayerContext::getInstance()->isAuthorized(null, false)){
             MessageService::getInstance()->add('error',"Cannot create player: Already logged in");

@@ -28,6 +28,11 @@ class GameService
         );
     }
 
+
+    public function getGameByPlayer($player){
+        return SL::Services()->objectService->dbaseDataToSingleObject(SL::Services()->queryService->querySelectGameByPlayer($player),new Game);
+    }
+
     /**
      * @param int $page
      * @param false $getDeleted
@@ -168,7 +173,7 @@ class GameService
         $game->creatorPlayerId = $player->id;
         $game->pinCode = $gameOptions['hasPinCode'] ? $gameOptions["pinCode"] : '';
         $game->status = "open";
-        $game->startPhase = $gameOptions["startPhase"];
+        $game->startPhaseId = $gameOptions["startPhaseId"];
         $game->isPublicListed = $gameOptions["isPublicListed"];
         SL::Services()->connection->insertObjectIntoTable($game);
         $game = $this->getGameByGid($game->gid);

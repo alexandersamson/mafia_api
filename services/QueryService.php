@@ -86,6 +86,8 @@ class QueryService
     }
 
 
+
+
     public function querySelectDistinctPlayersByGame($game){
         if(!SL::Services()->validationService->validateParams(["Game" => [$game]],__METHOD__)){
             return null;
@@ -101,6 +103,25 @@ class QueryService
         }
         return null;
     }
+
+
+    //Gets coplayers of a player in a game by this player
+    public function querySelectDistinctPlayersInGameByPlayer($player){
+        if(!SL::Services()->validationService->validateParams(["Player" => [$player]],__METHOD__)){
+            return null;
+        }
+        $sql = "SELECT players.* FROM mafia.players LEFT JOIN mafia.seats ON players.id = seats.player_id WHERE ( SELECT seats.game_id FROM seats WHERE seats.player_id = ?) = seats.game_id;";
+        $stmt = SL::Services()->connection->getConnection()->prepare($sql);
+        $stmt->bindParam(1, $player->id, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if(isset($data[0])){
+            MessageService::getInstance()->add("debug","(QueryService::querySelectDistinctPlayersInGameByPlayer) MYSQL getFromTable: " . implode(';',$data[0]));
+            return $data;
+        }
+        return null;
+    }
+
 
     public function querySelectFactionByPlayer($player){
         if(!SL::Services()->validationService->validateParams(["Player" => [$player]],__METHOD__)){
@@ -118,6 +139,7 @@ class QueryService
         return null;
     }
 
+    //checks if player has a valid token
     public function querySelectPlayerByUnexpiredToken($token, $timestamp, $deleted = false){
         if(!SL::Services()->validationService->validateParams(["string" => [$token], "integer" => [$timestamp], "bool" => [$deleted]],__METHOD__)){
             return null;
@@ -136,6 +158,7 @@ class QueryService
         return null;
     }
 
+    // Checks if the player is a host of given game (returns 1 or more)
     public function queryCountHostsByPlayerAndGame($player, $game, $getDeleted = false){
         if(!SL::Services()->validationService->validateParams(["Player" => [$player], "Game" => [$game], "bool" => [$getDeleted]],__METHOD__)){
             return null;
@@ -239,6 +262,8 @@ class QueryService
         return (int)$stmt->fetchColumn();
     }
 
+
+    //Returns the amount of host roles in seats which are occupied by players
     public function queryCountOccupiedHostsForGame($game){
         if(!SL::Services()->validationService->validateParams(["Game" => [$game]],__METHOD__)){
             return null;
@@ -250,6 +275,25 @@ class QueryService
         $stmt->bindParam(2, $hostRid, PDO::PARAM_STR);
         $stmt->execute();
         return (int)$stmt->fetchColumn();
+    }
+
+
+    //Returns the game where the player is in (if any)
+    public function querySelectGameByPlayer($player, $getDeleted = false){
+        if(!SL::Services()->validationService->validateParams(["Player" => [$player]],__METHOD__)){
+            return null;
+        }
+        $sql = "SELECT games.* FROM mafia.games LEFT JOIN mafia.seats ON games.id = seats.game_id WHERE seats.player_id = ? AND games.deleted = ?;";
+        $stmt = SL::Services()->connection->getConnection()->prepare($sql);
+        $stmt->bindParam(1, $player->id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $getDeleted, PDO::PARAM_BOOL);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if(isset($data[0])){
+            MessageService::getInstance()->add("debug","(QueryService::queryGetGameByPlayer) MYSQL getFromTable: " . implode(';',$data[0]));
+            return $data[0];//[0] because of single object to return.
+        }
+        return null;
     }
 
 

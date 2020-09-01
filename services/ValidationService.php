@@ -159,7 +159,7 @@ class ValidationService
         if($method == "createNewGame"){
             $defaultOptions["isPublicListed"] = true;
             $defaultOptions["hasPinCode"] = true;
-            $defaultOptions["startPhase"] = "day";
+            $defaultOptions["startPhaseId"] = 1;
             $defaultOptions["pinCode"] = RandGenService::getInstance()->generateGamePin();
             if($options == null){
                 return $defaultOptions;
@@ -167,7 +167,7 @@ class ValidationService
             $validators = [
                 "isPublicListed" => "bool",
                 "hasPinCode" => "bool",
-                "startPhase" => "validate_string_game_phase",
+                "startPhaseId" => "integer",
                 "pinCode" => "validate_string_pin_code"
             ];
             foreach ($defaultOptions as $key => $value) {

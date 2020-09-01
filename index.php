@@ -8,11 +8,14 @@ require 'models/Seat.php';
 require 'models/Faction.php';
 require 'models/Pagination.php';
 require 'models/PlayerToken.php';
+require 'models/GamePhase.php';
 require 'viewmodels/GameView.php';
+require 'viewmodels/GameOverviewViewModel.php';
 require 'viewmodels/PlayerViewModelPublic.php';
 require 'viewmodels/PlayerExtendedViewModelPublic.php';
 require 'viewmodels/PlayerViewModelTokenizedPublic.php';
 require 'viewmodels/PlayerPackage.php';
+require 'viewmodels/GamePhaseSmallViewModel.php';
 require 'services/SL.php';
 require 'services/GlobalsService.php';
 require 'services/StartupContext.php';
@@ -31,6 +34,7 @@ require 'services/GameService.php';
 require 'services/SeatService.php';
 require 'services/FactionService.php';
 require 'services/PlayerPackageService.php';
+require 'services/GamePhaseService.php';
 require 'controllers/AppController.php';
 require 'controllers/JsonPostValidationController.php';
 require 'controllers/GameController.php';
@@ -169,6 +173,20 @@ function parsePostData()
             }
         } else {
             MessageService::getInstance()->add("error", "Corrupted payload: Missing [gid] in the payload");
+        }
+    }
+
+    //cp = current player
+    if ($request == "cp_get_game_overview") {
+        if(!$gameController->getGameOverviewForCurrentPlayer()){
+            JsonBuilderService::getInstance()->add(["error" => "Cannot retrieve game. Are you logged in?"], GlobalsService::$data);
+        }
+    }
+
+    //cp = current player
+    if ($request == "cp_get_players_game_overview") {
+        if(!$playerController->getPlayerOverviewForCurrentPlayersGame()){
+            JsonBuilderService::getInstance()->add(["error" => "Cannot retrieve players. Are you logged in and in a game?"], GlobalsService::$data);
         }
     }
 

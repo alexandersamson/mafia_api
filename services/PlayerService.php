@@ -77,6 +77,13 @@ class PlayerService
     }
 
 
+    public function getAllPlayersForGameByPlayer($player){
+        return SL::Services()->objectService->dbaseDataToObjects(
+            SL::Services()->queryService->querySelectDistinctPlayersInGameByPlayer($player), new Player()
+        );
+    }
+
+
     public function getPublicCoPlayersByGame($game, $isRequestedByHost = false){
         if($game == null){
             return null;
