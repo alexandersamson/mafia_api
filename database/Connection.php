@@ -216,10 +216,10 @@ class Connection
                         $result->execute([$key, $description]);
                         MessageService::getInstance()->add("debug","MYSQL: runMigrations->Success: Number:".$key." ($description)");
                     } catch(PDOException $e) {
-                        MessageService::getInstance()->add("error","MYSQL: runMigrations->Query failed: " . $e->getMessage());
+                        MessageService::getInstance()->add("error","MYSQL: runMigrations->Query failed [migration: $key]: " . $e->getMessage());
                     }
                 } catch(PDOException $e) {
-                    MessageService::getInstance()->add("error","MYSQL: runMigrations->Query failed: " . $e->getMessage());
+                    MessageService::getInstance()->add("error","MYSQL: runMigrations->Query failed [migration: $key]: " . $e->getMessage());
                 }
             }
         }

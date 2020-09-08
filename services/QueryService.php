@@ -297,6 +297,45 @@ class QueryService
     }
 
 
+    public function querySelectAllNonInertRoles($skip = 0, $take = 1000, $getDeleted = false){
+        if(!SL::Services()->validationService->validateParams(["int"=> [$skip, $take], "bool" => [$getDeleted]],__METHOD__)){
+            return null;
+        }
+        $statuses = $ids = implode(', ', GlobalsService::getInstance()->getGameStatusJoinableArray());
+        $sql = "SELECT roles.* from mafia.roles INNER JOIN mafia.factions ON roles.faction_id = factions.id WHERE factions.is_inert = false AND roles.deleted = ? ORDER BY factions.list_priority LIMIT ?, ?;;";
+        $stmt = SL::Services()->connection->getConnection()->prepare($sql);
+        $stmt->bindParam(1, $getDeleted, PDO::PARAM_BOOL);
+        $stmt->bindParam(2, $skip, PDO::PARAM_INT);
+        $stmt->bindParam(3, $take, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if(isset($data[0])){
+            MessageService::getInstance()->add("debug","(QueryService::querySelectAllNonInertRoles) MYSQL getFromTable: " . implode(';',$data[0]));
+            return $data;
+        }
+        return null;
+    }
+
+    public function querySelectPlayersForSameFactionBySeat($seat){
+        if(!SL::Services()->validationService->validateParams(["Seat" => [$seat]], __METHOD__)){
+            return null;
+        }
+        $sql = "SELECT players.* FROM mafia.players INNER JOIN mafia.seats ON players.id = seats.player_id INNER JOIN mafia.factions ON seats.faction_id = factions.id WHERE factions.reveal_roles_to_faction = true AND factions.id = ? AND seats.game_id = ?;";
+        $stmt = SL::Services()->connection->getConnection()->prepare($sql);
+        $stmt->bindParam(1, $seat->factionId, PDO::PARAM_INT);
+        $stmt->bindParam(2, $seat->gameId, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if(isset($data[0])){
+            MessageService::getInstance()->add("debug","(QueryService::querySelectPlayersForSameFactionBySeat) MYSQL getFromTable: " . implode(';',$data[0]));
+            return $data;
+        }
+        return null;
+    }
+
+
+
+
 
 
 }

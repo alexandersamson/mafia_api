@@ -24,5 +24,6 @@ class Seat
     public $abilities =[];
     public $inventory = [];
     public $buffs = [];
+    public $hiddenBuffs = [];
     public $banned = false;
 }

@@ -7,11 +7,17 @@ class GamePhaseSmallViewModel
     public $name = '';
     public $isNight = true;
 
-    public function __construct(GamePhase $gamePhase)
+    public function __construct(GamePhase $gamePhase = null)
     {
-        $this->id = $gamePhase->id;
-        $this->name = $gamePhase->name;
-        $this->isNight = $gamePhase->isNight;
+        if(isset($gamePhase)) {
+            $this->id = (int)$gamePhase->id;
+            $this->name = (string)$gamePhase->name;
+            $this->isNight = (bool)$gamePhase->isNight;
+        } else {
+            $this->id = 1;
+            $this->name = 'DAY';
+            $this->isNight = false;
+        }
 
     }
 }

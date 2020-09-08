@@ -17,6 +17,7 @@ class SL
     public $validationService;
     public $queryService;
     public $paginationService;
+    public $abilityService;
 
 
     private function __construct()
@@ -29,6 +30,7 @@ class SL
         $this->seatService = new SeatService();
         $this->factionService = new FactionService();
         $this->gamePhaseService = new GamePhaseService();
+        $this->abilityService = new AbilityService();
         $this->playerPackageService = new PlayerPackageService();
         $this->formatService = new FormatService();
         $this->validationService = new ValidationService();

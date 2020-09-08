@@ -7,13 +7,45 @@ class RoleService
     /**
      * @param int $id
      * @param bool $getDeleted (= false)
-     * @return object|null
+     * @return Role|null
      */
     public function getRoleById(int $id, bool $getDeleted = false){
         if(SL::Services()->validationService->validateParams(["int" => $id, "bool" => $getDeleted], __METHOD__)) {
             return SL::Services()->objectService->getSingleObject(["id" => $id, 'deleted' => $getDeleted], new Role);
         }
         return null;
+    }
+
+
+    /**
+     * @param array $roles
+     * @param string $model
+     * @return array|null
+     */
+    public function convertRolesToViewModels(Array $roles, $model = RoleForPublicListing::class){
+        if(!isset($roles) || !is_array($roles)){
+            MessageService::getInstance()->add('error', __METHOD__.' - No valid Array (Role objects) provided');
+            return null;
+        }
+        $rolesVms = [];
+        foreach ($roles as $role) {
+            array_push($rolesVms, $this->convertRoleToViewModel($role));
+        }
+        return $rolesVms;
+    }
+
+
+    /**
+     * @param Role $role
+     * @param string $model
+     * @return Role|RoleForPublicListing|object|null
+     */
+    public function convertRoleToViewModel(Role $role, $model = RoleForPublicListing::class){
+        if(!isset($role)){
+            MessageService::getInstance()->add('error', __METHOD__.' - No valid Role object provided');
+            return null;
+        }
+        return new $model($role);
     }
 
 
@@ -99,7 +131,7 @@ class RoleService
 
     /**
      * @param $seat
-     * @return object|null
+     * @return Role|null
      */
     public function getCurrentRoleFromSeat($seat){
         if(!SL::Services()->validationService->validateParams(["Seat" => $seat], __METHOD__)) {
@@ -113,13 +145,89 @@ class RoleService
      * @param int $skip
      * @param int $take
      * @param false $getDeleted
+     * @param bool $excludeInerts
      * @return array|null
      */
-    public function getAllRoles($skip = 0, $take = 1000, $getDeleted=false){
-        if(SL::Services()->validationService->validateParams(["int" => [$skip,$take],"bool"=>[$getDeleted]], __METHOD__)) {
-            return SL::Services()->objectService->getObjects(['deleted' => $getDeleted], new Role, null, $skip, $take);
+    public function getAllRoles($skip = 0, $take = 1000, $getDeleted=false, $excludeInerts=true){
+        if(SL::Services()->validationService->validateParams(["int" => [$skip, $take], "bool"=>[$getDeleted, $excludeInerts]], __METHOD__)) {
+            if($excludeInerts){
+                return SL::Services()->objectService->dbaseDataToObjects(
+                    SL::Services()->queryService->querySelectAllNonInertRoles($skip, $take, $getDeleted
+                    ),
+                    new Role
+                );
+            } else {
+                return SL::Services()->objectService->getObjects(['deleted' => $getDeleted], new Role, null, $skip, $take);
+            }
         }
         return null;
+    }
+
+
+    /**
+     * @param $role
+     * @param string $model
+     * @param bool $deleted
+     * @return array|null
+     */
+    public function getAbilitiesForRole($role, $model = Ability::class, bool $deleted = false){
+        if(!isset($role)){
+            MessageService::getInstance()->add('error',__METHOD__.' - No valid Role object provided.');
+            return null;
+        }
+        return SL::Services()->abilityService->getAbilitiesByRole($role, $model, $deleted);
+    }
+
+
+    /**
+     * @param array $roles
+     * @param string $model
+     * @param bool $deleted
+     */
+    public function attachAbilitiesToRoles(Array $roles, $model = Ability::class, bool $deleted = false){
+        if(!isset($roles) || !is_array($roles)){
+            MessageService::getInstance()->add('error',__METHOD__.' - No valid array (Roles) provided.');
+            return null;
+        }
+        /* @var $role Role */
+        foreach ($roles as &$role){
+            $role->abilities = SL::Services()->abilityService->getAbilitiesByRole($role, $model, $deleted);
+        }
+        return $roles;
+    }
+
+
+    /**
+     * @param $role
+     * @param string $model
+     * @param bool $deleted
+     * @return Faction|object|null
+     */
+    public function getFactionForRole($role, $model = Faction::class, bool $deleted = false){
+        if(!isset($role)){
+            MessageService::getInstance()->add('error',__METHOD__.' - No valid Role object provided.');
+            return null;
+        }
+            return SL::Services()->factionService->getFactionByRole($role, $model, $deleted);
+    }
+
+
+    /**
+     * @param array $roles
+     * @param string $model
+     * @param bool $deleted
+     * @return array|null
+     */
+    public function attachFactionToRoles(Array $roles, $model = Faction::class, bool $deleted = false){
+        if(!isset($roles) || !is_array($roles)){
+            MessageService::getInstance()->add('error',__METHOD__.' - No valid array (Roles) provided.');
+            return null;
+        }
+        /* @var $role Role */
+        foreach ($roles as &$role){
+            $role->factionId = SL::Services()->factionService->getFactionByRole($role, $model, $deleted);
+        }
+        return $roles;
     }
 
 

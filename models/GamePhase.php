@@ -11,4 +11,5 @@ class GamePhase
     public $duration = 0;
     public $nextPhaseId = 0;
     public $description = '';
+    public $deleted = false;
 }

@@ -9,13 +9,23 @@ require 'models/Faction.php';
 require 'models/Pagination.php';
 require 'models/PlayerToken.php';
 require 'models/GamePhase.php';
+require 'models/Ability.php';
 require 'viewmodels/GameView.php';
 require 'viewmodels/GameOverviewViewModel.php';
+require 'viewmodels/GameViewModelSmallest.php';
 require 'viewmodels/PlayerViewModelPublic.php';
-require 'viewmodels/PlayerExtendedViewModelPublic.php';
+require 'viewmodels/PlayerViewModelPublicExtended.php';
+require 'viewmodels/PlayerViewModelGameOverview.php';
 require 'viewmodels/PlayerViewModelTokenizedPublic.php';
 require 'viewmodels/PlayerPackage.php';
 require 'viewmodels/GamePhaseSmallViewModel.php';
+require 'viewmodels/SeatViewModelRoleProfile.php';
+require 'viewmodels/RoleForOwnProfileViewModel.php';
+require 'viewmodels/RoleForPublicListing.php';
+require 'viewmodels/FactionForOwnProfileViewModel.php';
+require 'viewmodels/FactionForPublicListing.php';
+require 'viewmodels/AbilityForOwnProfileViewModel.php';
+require 'viewmodels/AbilityForPublicListing.php';
 require 'services/SL.php';
 require 'services/GlobalsService.php';
 require 'services/StartupContext.php';
@@ -35,11 +45,13 @@ require 'services/SeatService.php';
 require 'services/FactionService.php';
 require 'services/PlayerPackageService.php';
 require 'services/GamePhaseService.php';
+require 'services/AbilityService.php';
 require 'controllers/AppController.php';
 require 'controllers/JsonPostValidationController.php';
 require 'controllers/GameController.php';
 require 'controllers/PlayerController.php';
 require 'controllers/RoleController.php';
+require 'controllers/AbilityController.php';
 
 header("Access-Control-Allow-Origin: ".GlobalsService::$corsAllowOrigin);
 
@@ -139,9 +151,7 @@ function parsePostData()
     }
 
     if ($request == "get_all_roles") {
-        foreach ($roleController->getAllRoles() as $key => $value) {
-            JsonBuilderService::getInstance()->add($value, GlobalsService::$data);
-        }
+        $roleController->getAllRoles();
     }
 
     if ($request == "get_initial_roles_for_game") {
@@ -179,16 +189,22 @@ function parsePostData()
     //cp = current player
     if ($request == "cp_get_game_overview") {
         if(!$gameController->getGameOverviewForCurrentPlayer()){
-            JsonBuilderService::getInstance()->add(["error" => "Cannot retrieve game. Are you logged in?"], GlobalsService::$data);
+            JsonBuilderService::getInstance()->add(["error" => "Cannot retrieve game. Are you logged in?"], GlobalsService::$error);
         }
     }
 
     //cp = current player
     if ($request == "cp_get_players_game_overview") {
         if(!$playerController->getPlayerOverviewForCurrentPlayersGame()){
-            JsonBuilderService::getInstance()->add(["error" => "Cannot retrieve players. Are you logged in and in a game?"], GlobalsService::$data);
+            JsonBuilderService::getInstance()->add(["error" => "Cannot retrieve players. Are you logged in and in a game?"], GlobalsService::$error);
         }
     }
+
+    //cp = current player
+    if ($request == "cp_get_role_details") {
+        $playerController->getRoleDetailsForCurrentPlayersSeat();
+    }
+
 
     if ($request == "get_joinable_games_page") {
         $gameController->getJoinableGamesPage(isset($payload["page"]) ? $payload["page"] : 1);
@@ -221,13 +237,8 @@ function parsePostData()
         }
     }
 
-    if ($request == "get_player_by_name_and_pid") {
-        if (isset($payload["name"]) && isset($payload["pid"])) {
-
-        } else {
-            MessageService::getInstance()->add("error", "Corrupted payload: Missing [name] and/or [pid] in the payload");
-            MessageService::getInstance()->add("userError", MessageService::getInstance()->genericUserError);
-        }
+    if ($request == "get_available_game_phases" || $request == "get_all_game_phases") {
+            $gameController->getAllGamePhases();
     }
 
     if ($request == "get_player_package") {

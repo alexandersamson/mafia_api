@@ -43,10 +43,12 @@ class JsonBuilderService
 
 
     private function addMeta(){
+        $ts = new DateTime();
         $this->add([
             'version' => GlobalsService::$apiVersion,
             'apiName' => GlobalsService::$appName,
-            'apiLink' => GlobalsService::$publicLink
+            'apiLink' => GlobalsService::$publicLink,
+            'timestamp' => $ts->getTimestamp()
         ],'meta');
     }
 

@@ -65,6 +65,9 @@ class PlayerContext
     }
 
 
+    /**
+     * @return Player|null
+     */
     public function getCurrentPlayer(){
         if(
             isset($this->currentPlayer) &&
@@ -139,6 +142,21 @@ class PlayerContext
             return true;
         }
         return false;
+    }
+
+
+    public function isAuthorizedAndInAGame($callingMethod = 'unknown'){
+        if(!$this->isAuthorized()){
+            JsonBuilderService::getInstance()->add(['error' => "You are not logged in"], GlobalsService::$error);
+            MessageService::getInstance()->add('error',"($callingMethod) Can't get players for current player: User probably not logged in");
+            return false;
+        }
+        if(!$this->isInAGame()){
+            JsonBuilderService::getInstance()->add(['error' => "Yo are not in a game"], GlobalsService::$error);
+            MessageService::getInstance()->add('error',"($callingMethod) Can't get players for current player: User probably not in a game");
+            return false;
+        }
+        return true;
     }
 
 

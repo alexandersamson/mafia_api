@@ -10,14 +10,12 @@ class ObjectService
      * Returns [object] if found, returns [null] if not found or on error
      * @param array $query
      * @param object $model
-     * @param string $table (= null)
+     * @param mixed $table (= null)
      * @param string $andOr (= "AND")
      * @return mixed|null
      */
-    public function getSingleObject(array $query, object $model, string $table = '', string $andOr = "AND"){
-        if($table == NULL){
-            $table = $this->fromCamelCase(get_class($model)).'s';
-        }
+    public function getSingleObject(array $query, object $model, $table = null, string $andOr = "AND"){
+        $table = $this->getTable($model, $table);
         $object = $this->dbaseDataToSingleObject(
             SL::Services()->connection->getFromTable($table, $query, $andOr, 1)[0],$model
         );
@@ -32,16 +30,14 @@ class ObjectService
      * Returns [array] if found, returns [null] if nothing found or on error
      * @param array $query
      * @param object $model
-     * @param string|null $table
+     * @param mixed $table
      * @param int $skip
      * @param int $take
      * @param string $andOr
      * @return array|null
      */
-    public function getObjects(array $query, object $model, string $table = null, int $skip = 0, int $take = 1000, string $andOr = "AND"){
-        if($table == NULL){
-            $table = $this->fromCamelCase(get_class($model)).'s';
-        }
+    public function getObjects(array $query, object $model, $table = null, int $skip = 0, int $take = 1000, string $andOr = "AND"){
+        $table = $this->getTable($model, $table);
         $data = SL::Services()->connection->getFromTable($table, $query, $andOr, $take, $skip);
         $objects = [];
         if(is_array($data)){
@@ -53,6 +49,24 @@ class ObjectService
             return null;
         }
         return $objects;
+    }
+
+
+    /**
+     * @param object $model
+     * @param $table
+     * @return string
+     */
+    public function getTable(object $model, $table){
+        if($table == NULL){
+            $table = $this->getPlurals($this->fromCamelCase(get_class($model)));
+        } else if(is_object($table)){
+            $table = $this->getPlurals($this->fromCamelCase(get_class($table)));
+        } else if(!is_string($table)){
+            $table = $this->getPlurals($this->fromCamelCase(get_class($model)));
+            MessageService::getInstance()->add('error',__METHOD__.' - No valid table provided; using model instead.');
+        }
+        return $table;
     }
 
     /**
@@ -68,7 +82,7 @@ class ObjectService
             $nKey = $this->toCamelCase($key);
             if(property_exists($model, $nKey)) {
                 if(is_array($model->{$this->toCamelCase($key)})){
-                    $value = explode(GlobalsService::getInstance()->getDelimiter(),$value);
+                    $value = explode(GlobalsService::getInstance()->getDelimiter(), $value);
                 }
                 $model->{$nKey} = $value;
             }
@@ -99,6 +113,13 @@ class ObjectService
 
     function fromCamelCase($input) {
         return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
+    }
+
+    function getPlurals($input){
+        if($input[-1] === 'y'){
+            return substr($input, 0, strlen($input)-1).'ies';
+        }
+        return $input.'s';
     }
 
 

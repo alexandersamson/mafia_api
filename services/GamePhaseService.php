@@ -16,4 +16,8 @@ class GamePhaseService
         }
         return SL::Services()->objectService->getSingleObject(["id" => $game->startPhaseId], new GamePhase());
     }
+
+    public function getAllGamePhases(){
+        return SL::Services()->objectService->getObjects(['deleted' => false], new GamePhase());
+    }
 }

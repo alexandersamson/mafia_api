@@ -40,7 +40,7 @@ class SeatService
 
     /**
      * @param Player $player
-     * @return object|null
+     * @return Seat|null
      */
     public function getSeatByPlayer(Player $player){
         if(!SL::Services()->validationService->validateParams(["Player" => [$player]], __METHOD__)){

@@ -30,25 +30,25 @@ class GameView
 
     public function __construct(Game $game)
     {
-        $this->id = $game->id;
-        $this->gid = $game->gid;
-        $this->name = $game->name;
-        $this->status = $game->status;
-        $this->countDays = $game->countDays;
-        $this->nextPhaseTimestamp = $game->nextPhaseTimestamp;
-        $this->hostKeepsTime = $game->hostKeepsTime;
-        $this->pausedTimeLeft = $game->pausedTimeLeft;
-        $this->startPhase = SL::Services()->gamePhaseService->getStartPhaseForGame($game);
-        $this->currentPhase = SL::Services()->gamePhaseService->getCurrentPhaseForGame($game);
-        $this->showGameRoles = $game->showGameRoles;
-        $this->isPublicListed = $game->isPublicListed;
-        $this->creator = SL::Services()->playerService->convertPlayerToPlayerPublicViewModel(SL::Services()->playerService->getPlayerById($game->creatorPlayerId));
-        $this->createdOn = $game->createdOn;
-        $this->deleted = $game->deleted;
-        $this->host = SL::Services()->playerService->convertPlayerToPlayerPublicViewModel(SL::Services()->roleService->getHostPlayerForGame($game));
-        $this->hasPinCode = SL::Services()->gameService->hasPincodeByGame($game);
-        $this->pinCode = SL::Services()->gameService->gamePinCodeAccessFilterByPlayerContext($game);
-        $this->availableSlots = SL::Services()->seatService->getCountGameSlotsAvailable($game, true);
-        $this->usedSlots = SL::Services()->seatService->getCountGameSeatsUsed($game);
+        $this->id = (int)$game->id;
+        $this->gid = (string)$game->gid;
+        $this->name = (string)$game->name;
+        $this->status = (string)$game->status;
+        $this->countDays = (int)$game->countDays;
+        $this->nextPhaseTimestamp = (int)$game->nextPhaseTimestamp;
+        $this->hostKeepsTime = (bool)$game->hostKeepsTime;
+        $this->pausedTimeLeft = (int)$game->pausedTimeLeft;
+        $this->startPhase = (object)SL::Services()->gamePhaseService->getStartPhaseForGame($game);
+        $this->currentPhase = (object)SL::Services()->gamePhaseService->getCurrentPhaseForGame($game);
+        $this->showGameRoles = (bool)$game->showGameRoles;
+        $this->isPublicListed = (bool)$game->isPublicListed;
+        $this->creator = (object)SL::Services()->playerService->convertPlayerToPlayerPublicViewModel(SL::Services()->playerService->getPlayerById($game->creatorPlayerId));
+        $this->createdOn = (int)$game->createdOn;
+        $this->deleted = (bool)$game->deleted;
+        $this->host = (object)SL::Services()->playerService->convertPlayerToPlayerPublicViewModel(SL::Services()->roleService->getHostPlayerForGame($game));
+        $this->hasPinCode = (bool)SL::Services()->gameService->hasPincodeByGame($game);
+        $this->pinCode = (string)SL::Services()->gameService->gamePinCodeAccessFilterByPlayerContext($game);
+        $this->availableSlots = (int)SL::Services()->seatService->getCountGameSlotsAvailable($game, true);
+        $this->usedSlots = (int)SL::Services()->seatService->getCountGameSeatsUsed($game);
     }
 }

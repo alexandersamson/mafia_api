@@ -15,9 +15,14 @@ class GlobalsService
     public static $tokenJsonPropertyNameAlt = 'player_token';
 
     public static $data = 'data';
+    public static $error = 'error';
+    public static $meta = 'meta';
+    public static $messages = 'messages';
     public static $pagination = 'pagination';
 
     public static $gameRoleExposeToPlayerStatuses = ['started','paused','ended'];
+
+    public static $factionBaseColor = '#808080';
 
     private $appKey  = "8ec0c055ea86a1c0e26dc063a520dc4c5b75cea1d2a1d43f8f16166e22a1a154";
     private $appSalt = "319355a33206c9024240d1b316a26d41";
@@ -56,7 +61,10 @@ class GlobalsService
         "janitor",
         "hunter",
         "vilante",
-        "mayor"
+        "veteran",
+        "bmaker",
+        "wwolf",
+        "hunter"
     ];
     private $maxRolesPerGame = 32;
     private $minRolesPerGame = 3;

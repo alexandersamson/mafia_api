@@ -139,7 +139,7 @@ class ValidationService
                         if(((get_class($param) === "PlayerExtendedViewModelPublic") || (get_class($param) === "PlayerViewModelPublic") || (get_class($param) === "PlayerViewModelTokenizedPublic")) && (strtolower($type) === 'player')){
                             return true;
                         }
-                        if(((get_class($param) === "GameView") || (get_class($param) === "Game")) && (strtolower($type) === 'game')){
+                        if(((get_class($param) === "GameView") || (get_class($param) === "GameViewModelSmallest") || (get_class($param) === "Game")) && (strtolower($type) === 'game')){
                             return true;
                         }
                         if (strtolower(get_class($param)) === strtolower($type)) {
@@ -159,16 +159,16 @@ class ValidationService
         if($method == "createNewGame"){
             $defaultOptions["isPublicListed"] = true;
             $defaultOptions["hasPinCode"] = true;
-            $defaultOptions["startPhaseId"] = 1;
             $defaultOptions["pinCode"] = RandGenService::getInstance()->generateGamePin();
+            $defaultOptions["startPhaseId"] = 1;
             if($options == null){
                 return $defaultOptions;
             }
             $validators = [
                 "isPublicListed" => "bool",
                 "hasPinCode" => "bool",
-                "startPhaseId" => "integer",
-                "pinCode" => "validate_string_pin_code"
+                "pinCode" => "validate_string_pin_code",
+                "startPhaseId" => "integer"
             ];
             foreach ($defaultOptions as $key => $value) {
                 if(!isset($options[$key])){

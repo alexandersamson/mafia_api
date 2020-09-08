@@ -54,12 +54,25 @@ class RoleController
         return true;
     }
 
-    public function getAllRoles($skip = 0, $take = 1000){
-        $roles = $this->roleService->getAllRoles($skip = 0, $take = 1000);
-        foreach($this->connection->getFromTable('roles',['deleted' => 0]) as $key => $value){
-            $objects[$key] = $this->objectService->dbaseDataToSingleObject($value, new Role());
+    /**
+     * PUBLIC API METHOD
+     * - Clearance needed: [None]
+     * - API request: get_all_roles
+     * @param int $skip
+     * @param int $take
+     * @param bool $excludeInerts
+     * @return bool
+     */
+    public function getAllRoles($skip = 0, $take = 1000, $excludeInerts = true){
+        $roles = $this->roleService->getAllRoles($skip = 0, $take = 1000, false, $excludeInerts);
+        $rolesVms = SL::Services()->roleService->convertRolesToViewModels($roles);
+        if(isset($rolesVms)){
+            JsonBuilderService::getInstance()->add($rolesVms, GlobalsService::$data);
+
+            return true;
         }
-        return $objects;
+        JsonBuilderService::getInstance()->add(['error' => 'Cannot get roles'], GlobalsService::$error);
+        return false;
     }
 
     /**

@@ -10,8 +10,8 @@ class GameOverviewViewModel
     public $nextPhaseTimestamp = null;     //model
     public $hostKeepsTime = true;
     public $pausedTimeLeft = 0;
-    public $startPhase = [];     //model
-    public $currentPhase = [];    //model
+    public $startPhase = null;     //model
+    public $currentPhase = null;    //model
     public $isPublicListed = 1;     //model
     public $showGameRoles = 0;
     public $hasPinCode = false;     //vm only
@@ -25,11 +25,11 @@ class GameOverviewViewModel
         $this->name = $game->name;
         $this->status = $game->status;
         $this->countDays = $game->countDays ?? 0;
-        $this->hostKeepsTime = $game->hostKeepsTime ?? true;
+        $this->hostKeepsTime = (bool)$game->hostKeepsTime ?? true;
         $this->nextPhaseTimestamp = $game->nextPhaseTimestamp ?? 0;
         $this->pausedTimeLeft = $game->pausedTimeLeft ?? 0;
-        $this->startPhase = new GamePhaseSmallViewModel(SL::Services()->gamePhaseService->getStartPhaseForGame($game));
-        $this->currentPhase = new GamePhaseSmallViewModel(SL::Services()->gamePhaseService->getCurrentPhaseForGame($game));
+        $this->startPhase = new GamePhaseSmallViewModel(SL::Services()->gamePhaseService->getStartPhaseForGame($game)) ?? null;
+        $this->currentPhase = new GamePhaseSmallViewModel(SL::Services()->gamePhaseService->getCurrentPhaseForGame($game)) ?? null;
         $this->showGameRoles = $game->showGameRoles;
         $this->isPublicListed = $game->isPublicListed;
         $this->hasPinCode = SL::Services()->gameService->hasPincodeByGame($game);

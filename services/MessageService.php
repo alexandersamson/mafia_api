@@ -5,7 +5,9 @@ class MessageService
 {
     private static $instance = null;
 
-    public $showAllDebugging = true; //
+    public $showSystemDebugging = true; //
+    public $showUserDebugging = true; //
+    public $showOnlyErrors = true; //
     public $messages = [];
     public $messageTypes = [
         "error" => "System Error",
@@ -24,8 +26,8 @@ class MessageService
 
     private function __construct()
     {
-        if($this->showAllDebugging || GlobalsService::$debug){
-            $this->add("userWarning","System debugging is ON. To turn off debugging, set '\$showAllDebugging' to false in file MessageService.php");
+        if(GlobalsService::$debug) {
+            $this->add("userWarning", "System debugging is ON. To turn off debugging, set 'GlobalsService::\$debug' to false in file Globals.php", true);
         }
     }
 
@@ -38,10 +40,15 @@ class MessageService
         return self::$instance;
     }
 
-    public function add($type, $message){
+    public function add($type, $message, $bypass = false){
         if(GlobalsService::$debug) {
-            if ($this->showAllDebugging || substr($type, 0, 4) == 'user') {
-                array_push($this->messages, ["type" => $this->messageTypes[$type], "message" => $message]);
+            if ($bypass == true ||
+                (($this->showSystemDebugging || substr($type, 0, 4) == 'user') &&
+                ($this->showUserDebugging || substr($type, 0, 4) !== 'user')))
+            {
+                if($bypass == true || !$this->showOnlyErrors || $type === 'error' || $type === 'userError') {
+                    array_push($this->messages, ["type" => $this->messageTypes[$type], "message" => $message]);
+                }
             }
         }
     }

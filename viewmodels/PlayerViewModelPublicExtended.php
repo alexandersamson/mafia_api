@@ -1,7 +1,7 @@
 <?php
 
 
-class PlayerExtendedViewModelPublic extends PlayerViewModelPublic
+class PlayerViewModelPublicExtended extends PlayerViewModelPublic
 {
     //Extends from PlayerViewModelPublic
 
@@ -21,6 +21,7 @@ class PlayerExtendedViewModelPublic extends PlayerViewModelPublic
     public $gamesHosted = 0;
     public $roleId = null;
     public $knowsOwnRole = false;
+    public $knowsOwnFaction = false;
     public $hasRoleExposed = false;
     public $hasFactionExposed = false;
     public $hasTypeExposed = false;

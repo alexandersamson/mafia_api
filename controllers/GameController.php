@@ -30,6 +30,8 @@ class GameController
         $data = $this->gameService->getJoinableGamesPaginated($page, $getDeleted);
         if($data != null){
             JsonBuilderService::getInstance()->addPaginated($data);
+        } else {
+            JsonBuilderService::getInstance()->add(['error' => 'Cannot get games. Perhaps there are no games available?', GlobalsService::$error]);
         }
     }
 
@@ -77,12 +79,7 @@ class GameController
      * @return bool
      */
     public function getGameOverviewForCurrentPlayer(){
-        if(!PlayerContext::getInstance()->isAuthorized()){
-            MessageService::getInstance()->add('error',"(GameController::getGameOverviewForCurrentPlayer) Can't get game for current player: User probably not logged in");
-            return false;
-        }
-        if(!PlayerContext::getInstance()->isInAGame()){
-            MessageService::getInstance()->add('error',"(GameController::getGameOverviewForCurrentPlayer) Can't get game for current player: User probably not in a game");
+        if(!PlayerContext::getInstance()->isAuthorizedAndInAGame(__METHOD__)){
             return false;
         }
         $game = SL::Services()->gameService->getGameByPlayer(PlayerContext::getInstance()->getCurrentPlayer());
@@ -135,11 +132,11 @@ class GameController
     public function join($gid, $enteredGamePin = ""){
         $game = $this->gameService->getGameByGid($gid);
         if(!is_object($game)){
-            JsonBuilderService::getInstance()->add(["error" => "This game does not exist"], GlobalsService::$data);
+            JsonBuilderService::getInstance()->add(["error" => "This game does not exist"], GlobalsService::$error);
             return false;
         }
         if(!$this->gameService->checkPreJoinGame($game, $enteredGamePin)){
-            JsonBuilderService::getInstance()->add(["error" => "Can't join this game"], GlobalsService::$data);
+            JsonBuilderService::getInstance()->add(["error" => "Can't join this game"], GlobalsService::$error);
             return false;
         }
         if($this->seatService->addPlayerToSeat($this->seatService->getRandomAvailableSeat($game), PlayerContext::getInstance()->getCurrentPlayer())) {
@@ -174,6 +171,16 @@ class GameController
             JsonBuilderService::getInstance()->add(true, GlobalsService::$data);
             return true;
         }
+        return false;
+    }
+
+    public function getAllGamePhases(){
+        $gamePhases = SL::Services()->gamePhaseService->getAllGamePhases();
+        if(isset($gamePhases)){
+            JsonBuilderService::getInstance()->add($gamePhases, GlobalsService::$data);
+            return true;
+        }
+        JsonBuilderService::getInstance()->add(["error" => "Cannot get game phases"], GlobalsService::$error);
         return false;
     }
 }

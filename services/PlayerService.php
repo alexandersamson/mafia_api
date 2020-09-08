@@ -89,7 +89,7 @@ class PlayerService
             return null;
         }
         $playerPublicVmArray = SL::Services()->objectService->dbaseDataToObjects(
-            SL::Services()->queryService->querySelectDistinctPlayersByGame($game), new PlayerExtendedViewModelPublic
+            SL::Services()->queryService->querySelectDistinctPlayersByGame($game), new PlayerViewModelPublicExtended
         );
         $player = PlayerContext::getInstance()->getCurrentPlayer();
         foreach ($playerPublicVmArray as $key => $pvm){
@@ -112,31 +112,74 @@ class PlayerService
 
     /**
      * @param $player
+     * @param $model
      * @return PlayerViewModelPublic|null
      */
-    public function convertPlayerToPlayerPublicViewModel($player){
+    public function convertPlayerToPlayerPublicViewModel($player, $model = PlayerViewModelPublic::class){
         if(!SL::Services()->validationService->validateParams(["Player" => [$player]],__METHOD__)){
             return null;
         }
-        $playerVm = new PlayerViewModelPublic();
-        $playerVm->id = $player->id;
-        $playerVm->name = $player->name;
-        $playerVm->discriminator = $player->discriminator;
-        $playerVm->isModerator = $player->isModerator;
-        $playerVm->isAdmin = $player->isAdmin;
-        $playerVm->isSuperadmin = $player->isSuperadmin;
-        $playerVm->lastSeen = $player->lastSeen;
-        return $playerVm;
+        return new $model($player);
+    }
+
+    /**
+     * @param array $players
+     * @param string $model
+     * @return array|null[]
+     */
+    public function convertPlayersToPlayersPublicViewModelsArray(array $players, $model = PlayerViewModelPublic::class){
+        if(!isset($players) || !isset($players[0])){
+            return [null];
+        }
+        $formattedPlayers = [];
+        foreach ($players as $player){
+            array_push($formattedPlayers, $this->convertPlayerToPlayerPublicViewModel($player, $model));
+        }
+        return $formattedPlayers;
     }
 
 
-    public function addTokenToPublicPlayerView($token, $playerViewModel){
+    public function addTokenToPublicPlayerView($token, PlayerViewModelPublic $playerViewModel){
         if(!SL::Services()->validationService->validateParams(["PlayerViewModelPublic" => [$playerViewModel], "Token" => [$token]],__METHOD__)){
             return null;
         }
         $playerTokenVm = new PlayerViewModelTokenizedPublic();
         $playerTokenVm->playerToken = $token;
         return $playerTokenVm;
+    }
+
+    /**
+     * @param $player
+     * @param $game
+     * @return bool
+     */
+    public function isHostOfGameByPlayer($player, $game){
+        if(SL::Services()->queryService->queryCountHostsByPlayerAndGame($player, $game) > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public function isAlive($player){
+        if(!SL::Services()->validationService->validateParams(["Player" => [$player]],__METHOD__)){
+            return null;
+        }
+        return (SL::Services()->connection->findOccurrences(GlobalsService::getInstance()->getSeatsTable(),["is_alive" => true, "player_id" => $player->id]) > 0);
+    }
+
+    /**
+     * @param Seat $seat
+     * @param string $model
+     * @return array|null
+     */
+    public function getFactionCompanionsForPlayerInGameBySeat(Seat $seat, string $model){
+        $players = SL::Services()->objectService->dbaseDataToObjects(SL::Services()->queryService->querySelectPlayersForSameFactionBySeat($seat), new Player());
+        if($model != Player::class && is_array($players)) {
+            foreach ($players as $key => $player) {
+                $players[$key] = new $model($player);
+            }
+        }
+        return $players;
     }
 
 }

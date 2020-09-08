@@ -24,7 +24,7 @@ class PlayerController
         if(isset($token)) {
             $player = SL::Services()->playerService->getPlayerByValidToken($token);
             if (isset($player)) {
-                $playerView = SL::Services()->playerService->convertPlayerToPlayerPublicViewModel($player);
+                $playerView = SL::Services()->playerService->convertPlayerToPlayerPublicViewModel($player, PlayerViewModelPublic::class);
                 JsonBuilderService::getInstance()->add($playerView, GlobalsService::$data);
                 return true;
             }
@@ -59,24 +59,53 @@ class PlayerController
 
 
 
-        /**
-         * PUBLIC API METHOD
-         * cp_get_players_game_overview
-         */
-        public function getPlayerOverviewForCurrentPlayersGame(){
-            if(!PlayerContext::getInstance()->isAuthorized()){
-                MessageService::getInstance()->add('error',"(GameController::getPlayerOverviewForCurrentPlayersGame) Can't get players for current player: User probably not logged in");
-                return false;
-            }
-            if(!PlayerContext::getInstance()->isInAGame()){
-                MessageService::getInstance()->add('error',"(GameController::getPlayerOverviewForCurrentPlayersGame) Can't get players for current player: User probably not in a game");
-                return false;
-            }
-            SL::Services()->playerService->getAllPlayersForGameByPlayer(PlayerContext::getInstance()->getCurrentPlayer());
-            //TODO: Hier komt een array uit met spelers, deze omzetten naar kleine, publieke spelers en dan array returnen!
+    /**
+     * PUBLIC API METHOD
+     * cp_get_players_game_overview
+     */
+    public function getPlayerOverviewForCurrentPlayersGame(){
+        if(!PlayerContext::getInstance()->isAuthorizedAndInAGame(__METHOD__)){
+            return false;
         }
+        $playersVM = SL::Services()->playerService->convertPlayersToPlayersPublicViewModelsArray(
+            SL::Services()->playerService->getAllPlayersForGameByPlayer(
+                PlayerContext::getInstance()->getCurrentPlayer()
+            ), PlayerViewModelGameOverview::class
+        );
+        if(!isset($playersVM) || !isset($playersVM[0])){
+            MessageService::getInstance()->add('error',"(GameController::getPlayerOverviewForCurrentPlayersGame) Can't get players for current player: Probably no players in that game");
+            return false;
+        }
+        JsonBuilderService::getInstance()->add($playersVM, GlobalsService::$data);
+        return true;
+    }
 
 
+    public function getRoleDetailsForCurrentPlayersSeat(){
+        if(!PlayerContext::getInstance()->isAuthorizedAndInAGame(__METHOD__)){
+            return false;
+        }
+        $seat = SL::Services()->seatService->getSeatByPlayer(PlayerContext::getInstance()->getCurrentPlayer());
+        if(!isset($seat)){
+            MessageService::getInstance()->add('error', __METHOD__." - Cannot get current player seat from dbase");
+            JsonBuilderService::getInstance()->add(["error" => "Could not find player or player data for current player"], GlobalsService::$error);
+            return false;
+        }
+        $seatVm = new SeatViewModelRoleProfile($seat);
+        if(isset($seatVm)){
+            JsonBuilderService::getInstance()->add($seatVm, GlobalsService::$data);
+            return true;
+        }
+        JsonBuilderService::getInstance()->add(["error" => MessageService::getInstance()->genericUserError], GlobalsService::$error);
+        return false;
+    }
+
+
+    /**
+     * PUBLIC API METHOD
+     * @param $name
+     * @return bool
+     */
     function create($name){
         if(PlayerContext::getInstance()->isAuthorized(null, false)){
             MessageService::getInstance()->add('error',"Cannot create player: Already logged in");
@@ -119,13 +148,17 @@ class PlayerController
             MessageService::getInstance()->add('error',"PlayerController::create - Cannot get created player from currentPlayer (session var).");
             return false;
         }
-        $playerView = SL::Services()->playerService->convertPlayerToPlayerPublicViewModel($player);
+        $playerView = SL::Services()->playerService->convertPlayerToPlayerPublicViewModel($player, PlayerViewModelPublic::class);
         $playerView = SL::Services()->playerService->addTokenToPublicPlayerView($token, $playerView);
         JsonBuilderService::getInstance()->add($playerView, GlobalsService::$data);
         MessageService::getInstance()->add('userSuccess',"PlayerController::create - Player created and logged in: ".$playerView->name.$playerView->discriminator);
         return true;
     }
 
+    /**
+     * PUBLIC API METHOD
+     * @return bool
+     */
     public function getPlayerPackage(){
         if(!PlayerContext::getInstance()->isAuthorized()){
             MessageService::getInstance()->add('error',MessageService::getInstance()->notLoggedInError);
