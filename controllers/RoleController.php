@@ -50,7 +50,7 @@ class RoleController
         if(!is_array($roles) || $roles[0] == NULL) {
             return false;
         }
-        $this->jsonBuilder->add($roles,GlobalsService::$data);
+        $this->jsonBuilder->add($roles,GlobalsService::$jbData);
         return true;
     }
 
@@ -67,11 +67,11 @@ class RoleController
         $roles = $this->roleService->getAllRoles($skip = 0, $take = 1000, false, $excludeInerts);
         $rolesVms = SL::Services()->roleService->convertRolesToViewModels($roles);
         if(isset($rolesVms)){
-            JsonBuilderService::getInstance()->add($rolesVms, GlobalsService::$data);
+            JsonBuilderService::getInstance()->add($rolesVms, GlobalsService::$jbData);
 
             return true;
         }
-        JsonBuilderService::getInstance()->add(['error' => 'Cannot get roles'], GlobalsService::$error);
+        JsonBuilderService::getInstance()->add(['error' => 'Cannot get roles'], GlobalsService::$jbError);
         return false;
     }
 

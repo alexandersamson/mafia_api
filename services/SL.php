@@ -3,6 +3,7 @@
 class SL
 {
     private static $instance = null;
+    public $globals;
     public $connection;
     public $objectService;
     public $gameService;
@@ -22,6 +23,7 @@ class SL
 
     private function __construct()
     {
+        $this->globals = GlobalsService::getInstance();
         $this->connection = new Connection();
         $this->objectService = new ObjectService();
         $this->gameService = new GameService();

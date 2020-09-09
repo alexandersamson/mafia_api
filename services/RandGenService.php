@@ -40,7 +40,7 @@ class RandGenService
 
     public function generateId($salt = ''){
         if($salt == ''){
-            $salt = GlobalsService::getInstance()->getGenSalt();
+            $salt = GlobalsService::$genSalt;
         }
         return hash("sha256",
             rand(0,999).

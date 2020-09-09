@@ -187,6 +187,6 @@ class ValidationService
     }
 
     public function getApiKey(){
-        return GlobalsService::getInstance()->getApiKey();
+        return GlobalsService::$publicApiKey;
     }
 }

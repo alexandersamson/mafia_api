@@ -5,29 +5,51 @@ class GlobalsService
 
     private static $instance = null;
 
-    public static $debug = true; //TODO: turn this off
-    public static $appName = 'Mafia API';
-    public static $apiVersion = '0.1.0';
-    public static $publicLink = 'http://mafia.api';
-    public static $corsAllowOrigin = 'http://localhost:4200';
-    public static $tokenSecret = 'iU(N*&T:GfT7';
-    public static $tokenExpiresAfter = 31556926; // one year
-    public static $tokenJsonPropertyName = 'playerToken';
-    public static $tokenJsonPropertyNameAlt = 'player_token';
 
-    public static $data = 'data';
-    public static $error = 'error';
-    public static $meta = 'meta';
-    public static $messages = 'messages';
-    public static $pagination = 'pagination';
+    // --- START CONFIG VARS ---
+
+    //APP
+    public static $appName = 'Mafia API';
+    public static $apiVersion = '0';
+    public static $publicLink = 'http://mafia.api';
+    public static $publicApiKey  = "0";
+    public static $appSalt = "0";
+
+    //DEBUG
+    public static $debug = false;
+
+    //RNG
+    public static $genSalt = "0";
+
+    //DB CONNECTION
+    public static $dbServername = "dbServer:dbPort";
+    public static $dbUsername = "dbUser";
+    public static $dbPassword = "dbPassword";
+    public static $dbDatabase =  "dbDatabsase";
+
+    //CORS
+    public static $corsAllowOrigin = 'http://localhost:4200';
+
+    //SWT Token settings
+    public static $tokenSecret = '';
+    public static $tokenExpiresAfter = 0;
+    public static $tokenName = '';
+    public static $tokenNameAlt = '';
+
+    //JSON Builder settings
+    public static $jbData = 'data';
+    public static $jbError = 'error';
+    public static $jbMeta = 'meta';
+    public static $jbMessages = 'messages';
+    public static $jbPagination = 'pagination';
+
+    // ---  END CONFIG VARS ---
+
+
 
     public static $gameRoleExposeToPlayerStatuses = ['started','paused','ended'];
-
     public static $factionBaseColor = '#808080';
 
-    private $appKey  = "8ec0c055ea86a1c0e26dc063a520dc4c5b75cea1d2a1d43f8f16166e22a1a154";
-    private $appSalt = "319355a33206c9024240d1b316a26d41";
-    private $genSalt = "44eb73458b2f4e1b23f1e68cf2a15398";
     private $delimiter = ";";
     private $resultsPerPage = 10;
     private $playersTable = "players";
@@ -103,6 +125,16 @@ class GlobalsService
 
     private function __construct()
     {
+        $ini_arr = parse_ini_file("settings/settings.ini");
+        print_r($ini_arr);
+        foreach ($ini_arr as $key => $value){
+            try{
+                self::${$key} = $value;
+                print_r(self::${$key});
+            } catch (Exception $e){
+                print_r($e);
+            }
+        }
     }
 
     public static function getInstance()
@@ -111,21 +143,6 @@ class GlobalsService
             self::$instance = new GlobalsService();
         }
         return self::$instance;
-    }
-
-    public function getApiKey()
-    {
-        return $this->appKey;
-    }
-
-    public function getAppSalt()
-    {
-        return $this->appSalt;
-    }
-
-    public function getGenSalt()
-    {
-        return $this->genSalt;
     }
 
     public function getPlayersTable()

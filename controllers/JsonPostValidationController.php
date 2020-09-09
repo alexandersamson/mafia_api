@@ -13,17 +13,17 @@ class JsonPostValidationController
             Hi!<br>
             <br>
             This is the public <b>Mafia API</b>!<br>
-            Please use the following API key for API access:<br><br> <b><?php echo GlobalsService::getInstance()->getApiKey(); ?></b><br>
+            Please use the following API key for API access:<br><br> <b><?php echo GlobalsService::$publicApiKey; ?></b><br>
             <br>
             <u>Usage of the API:</u><br> 
             {<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;"publicApiKey": "<i><?php echo GlobalsService::getInstance()->getApiKey(); ?></i>",<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;"publicApiKey": "<i><?php echo GlobalsService::$publicApiKey; ?></i>",<br>
             &nbsp;&nbsp;&nbsp;&nbsp;"request": "<i>create_player</i>",<br>
             &nbsp;&nbsp;&nbsp;&nbsp;"payload": <i>{"name": "Johnny_Doe"}</i><br>
             }<br><br>
                 <form action="/index.php" method="post">
                     <label for="texttest"></label>
-                    <textarea id="texttest" rows="8" cols="100" name="api" >{&quot;publicApiKey&quot;:&quot;<?php echo GlobalsService::getInstance()->getApiKey(); ?>&quot;,&quot;request&quot;:&quot;get_joinable_games_page&quot;,&quot;payload&quot;:{&quot;page&quot;:1}}
+                    <textarea id="texttest" rows="8" cols="100" name="api" >{&quot;publicApiKey&quot;:&quot;<?php echo GlobalsService::$publicApiKey; ?>&quot;,&quot;request&quot;:&quot;get_joinable_games_page&quot;,&quot;payload&quot;:{&quot;page&quot;:1}}
                     </textarea><br>
                     <input type="submit" value="Test API">
                 </form>
@@ -55,7 +55,7 @@ class JsonPostValidationController
             echo "</div>";
             exit();
         }
-        if ($postData["publicApiKey"] == GlobalsService::getInstance()->getApiKey()) {
+        if ($postData["publicApiKey"] == GlobalsService::$publicApiKey) {
             if(
                 isset($postData["request"]) &&
                 isset($postData["payload"])

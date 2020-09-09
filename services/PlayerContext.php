@@ -147,12 +147,12 @@ class PlayerContext
 
     public function isAuthorizedAndInAGame($callingMethod = 'unknown'){
         if(!$this->isAuthorized()){
-            JsonBuilderService::getInstance()->add(['error' => "You are not logged in"], GlobalsService::$error);
+            JsonBuilderService::getInstance()->add(['error' => "You are not logged in"], GlobalsService::$jbError);
             MessageService::getInstance()->add('error',"($callingMethod) Can't get players for current player: User probably not logged in");
             return false;
         }
         if(!$this->isInAGame()){
-            JsonBuilderService::getInstance()->add(['error' => "Yo are not in a game"], GlobalsService::$error);
+            JsonBuilderService::getInstance()->add(['error' => "Yo are not in a game"], GlobalsService::$jbError);
             MessageService::getInstance()->add('error',"($callingMethod) Can't get players for current player: User probably not in a game");
             return false;
         }

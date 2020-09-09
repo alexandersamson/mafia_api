@@ -3,10 +3,6 @@
 
 class Connection
 {
-    private $servername = "localhost:3306";
-    private $username = "mafiauser";
-    private $password = "kip";
-    private $dbase = "mafia";
     private $migrations = [];
     private $connection;
     private $objectService;
@@ -19,7 +15,7 @@ class Connection
 
     public function connect(){
         try {
-            $this->connection = new PDO("mysql:host=$this->servername;dbname=$this->dbase", $this->username, $this->password);
+            $this->connection = new PDO('mysql:host='.GlobalsService::$dbServername.';dbname='.GlobalsService::$dbDatabase, GlobalsService::$dbUsername, GlobalsService::$dbPassword);
             // set the PDO error mode to exception
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             //MessageService::getInstance()->add("debug","MYSQL: Connected successfully");

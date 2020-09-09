@@ -25,11 +25,11 @@ class PlayerController
             $player = SL::Services()->playerService->getPlayerByValidToken($token);
             if (isset($player)) {
                 $playerView = SL::Services()->playerService->convertPlayerToPlayerPublicViewModel($player, PlayerViewModelPublic::class);
-                JsonBuilderService::getInstance()->add($playerView, GlobalsService::$data);
+                JsonBuilderService::getInstance()->add($playerView, GlobalsService::$jbData);
                 return true;
             }
         }
-        JsonBuilderService::getInstance()->add(["error" => "Player not found"], GlobalsService::$data);
+        JsonBuilderService::getInstance()->add(["error" => "Player not found"], GlobalsService::$jbData);
         return false;
     }
 
@@ -46,13 +46,13 @@ class PlayerController
     function getPlayerByNameAndPid($name, $pid, $getLoginDetails = false){
         $player = SL::Services()->playerService->getPlayerByNameAndPid($name,$pid);
         if($player == null){
-            JsonBuilderService::getInstance()->add(["error" => "Cannot get player"], GlobalsService::$data);
+            JsonBuilderService::getInstance()->add(["error" => "Cannot get player"], GlobalsService::$jbData);
             return false;
         }
         if(!$getLoginDetails){
             $playerView = SL::Services()->playerService->convertPlayerToPlayerPublicViewModel($player);
         }
-        JsonBuilderService::getInstance()->add($playerView, GlobalsService::$data);
+        JsonBuilderService::getInstance()->add($playerView, GlobalsService::$jbData);
         return true;
     }
 
@@ -76,7 +76,7 @@ class PlayerController
             MessageService::getInstance()->add('error',"(GameController::getPlayerOverviewForCurrentPlayersGame) Can't get players for current player: Probably no players in that game");
             return false;
         }
-        JsonBuilderService::getInstance()->add($playersVM, GlobalsService::$data);
+        JsonBuilderService::getInstance()->add($playersVM, GlobalsService::$jbData);
         return true;
     }
 
@@ -88,15 +88,15 @@ class PlayerController
         $seat = SL::Services()->seatService->getSeatByPlayer(PlayerContext::getInstance()->getCurrentPlayer());
         if(!isset($seat)){
             MessageService::getInstance()->add('error', __METHOD__." - Cannot get current player seat from dbase");
-            JsonBuilderService::getInstance()->add(["error" => "Could not find player or player data for current player"], GlobalsService::$error);
+            JsonBuilderService::getInstance()->add(["error" => "Could not find player or player data for current player"], GlobalsService::$jbError);
             return false;
         }
         $seatVm = new SeatViewModelRoleProfile($seat);
         if(isset($seatVm)){
-            JsonBuilderService::getInstance()->add($seatVm, GlobalsService::$data);
+            JsonBuilderService::getInstance()->add($seatVm, GlobalsService::$jbData);
             return true;
         }
-        JsonBuilderService::getInstance()->add(["error" => MessageService::getInstance()->genericUserError], GlobalsService::$error);
+        JsonBuilderService::getInstance()->add(["error" => MessageService::getInstance()->genericUserError], GlobalsService::$jbError);
         return false;
     }
 
@@ -150,7 +150,7 @@ class PlayerController
         }
         $playerView = SL::Services()->playerService->convertPlayerToPlayerPublicViewModel($player, PlayerViewModelPublic::class);
         $playerView = SL::Services()->playerService->addTokenToPublicPlayerView($token, $playerView);
-        JsonBuilderService::getInstance()->add($playerView, GlobalsService::$data);
+        JsonBuilderService::getInstance()->add($playerView, GlobalsService::$jbData);
         MessageService::getInstance()->add('userSuccess',"PlayerController::create - Player created and logged in: ".$playerView->name.$playerView->discriminator);
         return true;
     }
@@ -166,7 +166,7 @@ class PlayerController
         }
         $player = PlayerContext::getInstance()->getCurrentPlayer();
         if(isset($player)){
-            JsonBuilderService::getInstance()->add(SL::Services()->playerPackageService->assemblePlayerPackage($player),GlobalsService::$data);
+            JsonBuilderService::getInstance()->add(SL::Services()->playerPackageService->assemblePlayerPackage($player),GlobalsService::$jbData);
             return true;
         }
         MessageService::getInstance()->add('error',"PlayerController::getPlayerPackage - cannot assemble package.");

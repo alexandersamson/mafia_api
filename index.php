@@ -1,4 +1,24 @@
 <?php
+require 'services/SL.php';
+require 'services/GlobalsService.php';
+require 'services/StartupContext.php';
+require 'services/PlayerContext.php';
+require 'services/JsonBuilderService.php';
+require 'services/MessageService.php';
+require 'services/RandGenService.php';
+require 'services/ValidationService.php';
+require 'services/QueryService.php';
+require 'services/PaginationService.php';
+require 'services/FormatService.php';
+require 'services/RoleService.php';
+require 'services/ObjectService.php';
+require 'services/PlayerService.php';
+require 'services/GameService.php';
+require 'services/SeatService.php';
+require 'services/FactionService.php';
+require 'services/PlayerPackageService.php';
+require 'services/GamePhaseService.php';
+require 'services/AbilityService.php';
 require 'database/Connection.php';
 require 'database/migrations.php';
 require 'models/Game.php';
@@ -26,26 +46,6 @@ require 'viewmodels/FactionForOwnProfileViewModel.php';
 require 'viewmodels/FactionForPublicListing.php';
 require 'viewmodels/AbilityForOwnProfileViewModel.php';
 require 'viewmodels/AbilityForPublicListing.php';
-require 'services/SL.php';
-require 'services/GlobalsService.php';
-require 'services/StartupContext.php';
-require 'services/PlayerContext.php';
-require 'services/JsonBuilderService.php';
-require 'services/MessageService.php';
-require 'services/RandGenService.php';
-require 'services/ValidationService.php';
-require 'services/QueryService.php';
-require 'services/PaginationService.php';
-require 'services/FormatService.php';
-require 'services/RoleService.php';
-require 'services/ObjectService.php';
-require 'services/PlayerService.php';
-require 'services/GameService.php';
-require 'services/SeatService.php';
-require 'services/FactionService.php';
-require 'services/PlayerPackageService.php';
-require 'services/GamePhaseService.php';
-require 'services/AbilityService.php';
 require 'controllers/AppController.php';
 require 'controllers/JsonPostValidationController.php';
 require 'controllers/GameController.php';
@@ -98,11 +98,11 @@ header("Content-Type: application/json; charset=UTF-8");
 
 
 function tryLogin(){
-    if(isset($_POST[GlobalsService::$tokenJsonPropertyNameAlt]) || isset($_POST[GlobalsService::$tokenJsonPropertyName])){
-        if(isset($_POST[GlobalsService::$tokenJsonPropertyNameAlt])){
-            $_POST[GlobalsService::$tokenJsonPropertyName] = $_POST[GlobalsService::$tokenJsonPropertyNameAlt];
+    if(isset($_POST[GlobalsService::$tokenNameAlt]) || isset($_POST[GlobalsService::$tokenName])){
+        if(isset($_POST[GlobalsService::$tokenNameAlt])){
+            $_POST[GlobalsService::$tokenName] = $_POST[GlobalsService::$tokenNameAlt];
         }
-        PlayerContext::getInstance()->logInPlayer($_POST[GlobalsService::$tokenJsonPropertyName]);
+        PlayerContext::getInstance()->logInPlayer($_POST[GlobalsService::$tokenName]);
     }
 }
 
@@ -136,7 +136,7 @@ function parsePostData()
 
     if ($request == "get_role_by_rid") {
         if (isset($payload["rid"])) {
-            JsonBuilderService::getInstance()->add($roleController->getRoleByRid($payload["rid"]), GlobalsService::$data);
+            JsonBuilderService::getInstance()->add($roleController->getRoleByRid($payload["rid"]), GlobalsService::$jbData);
         } else {
             MessageService::getInstance()->add("error", "Corrupted payload: Missing [rid] in the payload");
             MessageService::getInstance()->add("userError", MessageService::getInstance()->genericUserError);
@@ -145,7 +145,7 @@ function parsePostData()
 
     if ($request == "get_roles_by_fid") {
         if (isset($payload["fid"])) {
-            JsonBuilderService::getInstance()->add($roleController->getRolesByFid($payload["fid"]), GlobalsService::$data);
+            JsonBuilderService::getInstance()->add($roleController->getRolesByFid($payload["fid"]), GlobalsService::$jbData);
         } else {
             MessageService::getInstance()->add("error", "Corrupted payload: Missing [fid] in the payload");
             MessageService::getInstance()->add("userError", MessageService::getInstance()->genericUserError);
@@ -159,7 +159,7 @@ function parsePostData()
     if ($request == "get_initial_roles_for_game") {
         if (isset($payload["gid"])) {
             foreach ($roleController->getInitialRolesForGame($payload["gid"]) as $key => $value) {
-                JsonBuilderService::getInstance()->add($value, GlobalsService::$data);
+                JsonBuilderService::getInstance()->add($value, GlobalsService::$jbData);
             }
         } else {
             MessageService::getInstance()->add("error", "Corrupted payload: Missing [gid] in the payload");
@@ -170,7 +170,7 @@ function parsePostData()
     if ($request == "get_available_roles_for_game") {
         if (isset($payload["gid"])) {
             foreach ($roleController->getAvailableRolesForGame($payload["gid"]) as $key => $value) {
-                JsonBuilderService::getInstance()->add($value, GlobalsService::$data);
+                JsonBuilderService::getInstance()->add($value, GlobalsService::$jbData);
             }
         } else {
             MessageService::getInstance()->add("error", "Corrupted payload: Missing [gid] in the payload");
@@ -181,7 +181,7 @@ function parsePostData()
     if ($request == "get_used_roles_for_game") {
         if (isset($payload["gid"])) {
             foreach ($roleController->getUsedRolesForGame($payload["gid"]) as $key => $value) {
-                JsonBuilderService::getInstance()->add($value, GlobalsService::$data);
+                JsonBuilderService::getInstance()->add($value, GlobalsService::$jbData);
             }
         } else {
             MessageService::getInstance()->add("error", "Corrupted payload: Missing [gid] in the payload");
@@ -191,14 +191,14 @@ function parsePostData()
     //cp = current player
     if ($request == "cp_get_game_overview") {
         if(!$gameController->getGameOverviewForCurrentPlayer()){
-            JsonBuilderService::getInstance()->add(["error" => "Cannot retrieve game. Are you logged in?"], GlobalsService::$error);
+            JsonBuilderService::getInstance()->add(["error" => "Cannot retrieve game. Are you logged in?"], GlobalsService::$jbError);
         }
     }
 
     //cp = current player
     if ($request == "cp_get_players_game_overview") {
         if(!$playerController->getPlayerOverviewForCurrentPlayersGame()){
-            JsonBuilderService::getInstance()->add(["error" => "Cannot retrieve players. Are you logged in and in a game?"], GlobalsService::$error);
+            JsonBuilderService::getInstance()->add(["error" => "Cannot retrieve players. Are you logged in and in a game?"], GlobalsService::$jbError);
         }
     }
 

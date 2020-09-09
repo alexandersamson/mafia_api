@@ -9,7 +9,7 @@ class AppController
      * @return bool
      */
     public function getPublicApiKey(){
-        JsonBuilderService::getInstance()->add(SL::Services()->validationService->getApiKey(), GlobalsService::$data);
+        JsonBuilderService::getInstance()->add(SL::Services()->validationService->getApiKey(), GlobalsService::$jbData);
         return true;
     }
 }

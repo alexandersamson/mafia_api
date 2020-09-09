@@ -31,7 +31,7 @@ class GameController
         if($data != null){
             JsonBuilderService::getInstance()->addPaginated($data);
         } else {
-            JsonBuilderService::getInstance()->add(['error' => 'Cannot get games. Perhaps there are no games available?', GlobalsService::$error]);
+            JsonBuilderService::getInstance()->add(['error' => 'Cannot get games. Perhaps there are no games available?', GlobalsService::$jbError]);
         }
     }
 
@@ -66,7 +66,7 @@ class GameController
             MessageService::getInstance()->add('error',"(GameController::create) Can't create game: Game created, but not set.");
             return false;
         }
-        JsonBuilderService::getInstance()->add($game, GlobalsService::$data);
+        JsonBuilderService::getInstance()->add($game, GlobalsService::$jbData);
         MessageService::getInstance()->add('userSuccess', "Game created: " . $game->gid);
         return true;
     }
@@ -88,7 +88,7 @@ class GameController
             return false;
         }
         $gameOverview = new GameOverviewViewModel($game);
-        JsonBuilderService::getInstance()->add($gameOverview, GlobalsService::$data);
+        JsonBuilderService::getInstance()->add($gameOverview, GlobalsService::$jbData);
         return true;
     }
 
@@ -113,7 +113,7 @@ class GameController
             return false;
         }
         if(SL::Services()->gameService->removeGame(SL::Services()->gameService->getGameByGid($gid))){
-            JsonBuilderService::getInstance()->add(true, GlobalsService::$data);
+            JsonBuilderService::getInstance()->add(true, GlobalsService::$jbData);
             return true;
         }
         return false;
@@ -132,11 +132,11 @@ class GameController
     public function join($gid, $enteredGamePin = ""){
         $game = $this->gameService->getGameByGid($gid);
         if(!is_object($game)){
-            JsonBuilderService::getInstance()->add(["error" => "This game does not exist"], GlobalsService::$error);
+            JsonBuilderService::getInstance()->add(["error" => "This game does not exist"], GlobalsService::$jbError);
             return false;
         }
         if(!$this->gameService->checkPreJoinGame($game, $enteredGamePin)){
-            JsonBuilderService::getInstance()->add(["error" => "Can't join this game"], GlobalsService::$error);
+            JsonBuilderService::getInstance()->add(["error" => "Can't join this game"], GlobalsService::$jbError);
             return false;
         }
         if($this->seatService->addPlayerToSeat($this->seatService->getRandomAvailableSeat($game), PlayerContext::getInstance()->getCurrentPlayer())) {
@@ -144,7 +144,7 @@ class GameController
                 SL::Services()->playerPackageService->assemblePlayerPackage(
                     PlayerContext::getInstance()->getCurrentPlayer()
                 ),
-                GlobalsService::$data
+                GlobalsService::$jbData
             );
             return true;
         }
@@ -168,7 +168,7 @@ class GameController
             return false;
         }
         if(SL::Services()->seatService->vacateSeat(SL::Services()->seatService->getSeatByPlayer(PlayerContext::getInstance()->getCurrentPlayer()))){
-            JsonBuilderService::getInstance()->add(true, GlobalsService::$data);
+            JsonBuilderService::getInstance()->add(true, GlobalsService::$jbData);
             return true;
         }
         return false;
@@ -177,10 +177,10 @@ class GameController
     public function getAllGamePhases(){
         $gamePhases = SL::Services()->gamePhaseService->getAllGamePhases();
         if(isset($gamePhases)){
-            JsonBuilderService::getInstance()->add($gamePhases, GlobalsService::$data);
+            JsonBuilderService::getInstance()->add($gamePhases, GlobalsService::$jbData);
             return true;
         }
-        JsonBuilderService::getInstance()->add(["error" => "Cannot get game phases"], GlobalsService::$error);
+        JsonBuilderService::getInstance()->add(["error" => "Cannot get game phases"], GlobalsService::$jbError);
         return false;
     }
 }

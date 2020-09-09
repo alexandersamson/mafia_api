@@ -33,8 +33,8 @@ class JsonBuilderService
     }
 
     public function addPaginated($dataArray){
-        JsonBuilderService::getInstance()->add($dataArray[GlobalsService::$data], GlobalsService::$data);
-        JsonBuilderService::getInstance()->add($dataArray[strtolower(get_class(new Pagination()))], GlobalsService::$pagination);
+        JsonBuilderService::getInstance()->add($dataArray[GlobalsService::$jbData], GlobalsService::$jbData);
+        JsonBuilderService::getInstance()->add($dataArray[strtolower(get_class(new Pagination()))], GlobalsService::$jbPagination);
     }
 
     private function addDebugMessages(){
@@ -49,7 +49,7 @@ class JsonBuilderService
             'apiName' => GlobalsService::$appName,
             'apiLink' => GlobalsService::$publicLink,
             'timestamp' => $ts->getTimestamp()
-        ],'meta');
+        ],GlobalsService::$jbMeta);
     }
 
     public function ConsumeJson(){
