@@ -10,6 +10,7 @@ class GlobalsService
     public static $apiVersion = '0.1.0';
     public static $publicLink = 'http://mafia.api';
     public static $corsAllowOrigin = 'http://localhost:4200';
+    public static $tokenSecret = 'iU(N*&T:GfT7';
     public static $tokenExpiresAfter = 31556926; // one year
     public static $tokenJsonPropertyName = 'playerToken';
     public static $tokenJsonPropertyNameAlt = 'player_token';
@@ -61,14 +62,23 @@ class GlobalsService
         "janitor",
         "hunter",
         "vilante",
-        "veteran",
         "bmaker",
         "wwolf",
-        "hunter"
+        "hunter",
+        "bmaker",
+        "jester",
+        "mmurder",
+        "lookout",
+        "consig",
+        "notary",
+        "mayor",
+        "vet",
+        "snifdog"
+
     ];
     private $maxRolesPerGame = 32;
     private $minRolesPerGame = 3;
-    private $validGamePhases = ["day","vote","night"];
+    private $validGamePhases = ["day","vote","sunset","night","sunrise"];
     private $maxGameNameLength = 32;
     private $gameHostRoleRid = "host";
     private $gameStatusJoinableArray = ["open"];

@@ -17,7 +17,7 @@ class ObjectService
     public function getSingleObject(array $query, object $model, $table = null, string $andOr = "AND"){
         $table = $this->getTable($model, $table);
         $object = $this->dbaseDataToSingleObject(
-            SL::Services()->connection->getFromTable($table, $query, $andOr, 1)[0],$model
+            SL::Services()->connection->getFromTable($table, $query, $andOr, 1)[0] ?? null, $model
         );
         if($object != NULL){
             return $object;

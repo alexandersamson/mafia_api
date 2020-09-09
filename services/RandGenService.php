@@ -1,6 +1,8 @@
 <?php
 
 
+use ReallySimpleJWT\Token;
+
 class RandGenService
 {
     private static $instance = null;
@@ -30,9 +32,9 @@ class RandGenService
      */
     public function generateToken($salt = ''){
         $token = new PlayerToken();
-        $token->token = hash("sha3-512", $this->generateId($salt).$this->generateId($salt));
         $date = new DateTime();
         $token->expiresOn =  $date->getTimestamp() + GlobalsService::$tokenExpiresAfter;
+        $token->token = Token::create($salt, GlobalsService::$tokenSecret,$token->expiresOn, 'localhost');
         return $token;
     }
 

@@ -7,7 +7,7 @@ class MessageService
 
     public $showSystemDebugging = true; //
     public $showUserDebugging = true; //
-    public $showOnlyErrors = true; //
+    public $showOnlyErrors = false; //
     public $messages = [];
     public $messageTypes = [
         "error" => "System Error",

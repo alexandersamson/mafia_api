@@ -1,12 +1,17 @@
 <?php
 
 
+use ReallySimpleJWT\Encode;
+use ReallySimpleJWT\Jwt;
+use ReallySimpleJWT\Parse;
+use ReallySimpleJWT\Validate;
+
 class PlayerService
 {
 
     /**
      * @param $pid
-     * @return object|null
+     * @return Player|object|null
      */
     function getPlayerByPid($pid){
         return SL::Services()->objectService->getSingleObject(['deleted' => 0, "pid" => $pid],new Player);
@@ -17,13 +22,20 @@ class PlayerService
      * @param $token
      * @return Player|null
      */
-    function getPlayerByValidToken($token){
-        $date = new DateTime();
-        $timestamp = $date->getTimestamp();
-        return SL::Services()->objectService->dbaseDataToSingleObject(
-            SL::Services()->queryService->querySelectPlayerByUnexpiredToken($token, $timestamp)
-            , new Player()
-        );
+    function getPlayerByValidToken($token)
+    {
+        try {
+            $jwt = new Jwt($token, GlobalsService::$tokenSecret);
+            $parse = new Parse($jwt, new Validate(), new Encode());
+            $parsed = $parse->validate()
+                ->validateExpiration()
+                ->parse();
+        }
+        catch (Exception $e){
+            MessageService::getInstance()->add('userError',$e);
+            return null;
+        }
+        return SL::Services()->playerService->getPlayerByPid($parsed->getPayload()['user_id']);
     }
 
 

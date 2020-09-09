@@ -1,0 +1,14 @@
+{
+    "name": "mafiaapi/mafiaapi",
+    "description": "Mafia API",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexander Samson",
+            "email": "alexander@gm7.nl"
+        }
+    ],
+    "require": {
+        "rbdwllr/reallysimplejwt": "^3.1"
+    }
+}

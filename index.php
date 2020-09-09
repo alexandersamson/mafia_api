@@ -52,6 +52,8 @@ require 'controllers/GameController.php';
 require 'controllers/PlayerController.php';
 require 'controllers/RoleController.php';
 require 'controllers/AbilityController.php';
+use ReallySimpleJWT\Token;
+require 'vendor/autoload.php';
 
 header("Access-Control-Allow-Origin: ".GlobalsService::$corsAllowOrigin);
 

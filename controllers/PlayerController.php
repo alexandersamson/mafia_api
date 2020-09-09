@@ -127,7 +127,7 @@ class PlayerController
         $player->discriminator = RandGenService::getInstance()->getValidDiscriminator($name,"");
         $player->createdOn = $date->getTimestamp();
         $player->lastSeen = $date->getTimestamp();
-        $token = RandGenService::getInstance()->generateToken($name.$player->discriminator);
+        $token = RandGenService::getInstance()->generateToken($player->pid);
         $player->token = $token->token;
         $player->tokenExpiresOn = $token->expiresOn;
         if(!$this->connection->insertObjectIntoTable($player)){

@@ -125,12 +125,12 @@ class ValidationService
                         MessageService::getInstance()->add('error', "[$callingMethod] - Expected [string]. Got [" . gettype($param) . "]");
                         return false;
                     }
-                    if (strlen($param) !=  128) {
+                    if (strlen($param) <  128) {
                         MessageService::getInstance()->add('error', "[$callingMethod] - Expected [strlen 128]. Got [strlen" . strlen($param) . "]");
                         return false;
                     }
-                    if (!preg_match('/^[0-9a-fA-F]*$/', $param)) {
-                        MessageService::getInstance()->add('error', "[$callingMethod] - Expected [HEX chars]. Got invalid chars");
+                    if (!preg_match('/^[0-9a-zA-Z_.=-]*$/', $param)) {
+                        MessageService::getInstance()->add('error', "[$callingMethod] - Expected [JWT chars]. Got invalid chars");
                         return false;
                     }
                     return true;
