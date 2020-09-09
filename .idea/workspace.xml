@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0843a876-958a-4141-8419-e5512d37f090" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/settings/settings.ini.template" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/AppController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/AppController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/GameController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/GameController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/JsonPostValidationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/JsonPostValidationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/PlayerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/PlayerController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/RoleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/RoleController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/Connection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/GlobalsService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/GlobalsService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/JsonBuilderService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/JsonBuilderService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/PlayerContext.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/PlayerContext.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/RandGenService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/RandGenService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/SL.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/SL.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/ValidationService.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/ValidationService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings/.htaccess" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +63,7 @@
       <updated>1597768963560</updated>
       <workItem from="1597768964636" duration="73999000" />
       <workItem from="1597958937077" duration="158479000" />
-      <workItem from="1598321333624" duration="212046000" />
+      <workItem from="1598321333624" duration="212325000" />
     </task>
     <task id="LOCAL-00001" summary="commit1">
       <created>1598670137528</created>
@@ -114,7 +100,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599674318906</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="commit5">
+      <created>1599678271184</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1599678271184</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -169,10 +162,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="710" y="376" key="#com.jetbrains.php.refactoring.move.member.instance.PhpMoveInstanceMethodDialog#/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598039215949" />
-    <state x="-1376" y="94" key="CommitChangelistDialog2" timestamp="1599674318293">
+    <state x="-1376" y="94" key="CommitChangelistDialog2" timestamp="1599678270653">
       <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
-    <state x="-1376" y="94" key="CommitChangelistDialog2/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599674318293" />
+    <state x="-1376" y="94" key="CommitChangelistDialog2/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599678270653" />
     <state x="544" y="94" key="CommitChangelistDialog2/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598918833214" />
     <state width="1877" height="146" key="GridCell.Tab.0.bottom" timestamp="1598321011618">
       <screen x="0" y="0" width="1920" height="1050" />
@@ -223,10 +216,10 @@
       <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
     <state x="-1444" y="170" key="SettingsEditor/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599634896883" />
-    <state x="-1368" y="258" key="Vcs.Push.Dialog.v2" timestamp="1599674321515">
+    <state x="-1368" y="258" key="Vcs.Push.Dialog.v2" timestamp="1599678272374">
       <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
-    <state x="-1368" y="258" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599674321515" />
+    <state x="-1368" y="258" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599678272374" />
     <state x="552" y="258" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598918837889" />
     <state x="802" y="123" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1597832976061">
       <screen x="0" y="0" width="1920" height="1050" />
