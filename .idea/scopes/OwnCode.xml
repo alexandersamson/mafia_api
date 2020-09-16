@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="OwnCode" pattern="!file[mafiaPhpApi]:vendor/*&amp;&amp;!file[mafiaPhpApi]:vendor//*" />
+</component>

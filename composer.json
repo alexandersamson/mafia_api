@@ -8,7 +8,14 @@
             "email": "alexander@gm7.nl"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Main\\":"./"
+        }
+
+    },
     "require": {
-        "rbdwllr/reallysimplejwt": "^3.1"
+        "rbdwllr/reallysimplejwt": "^3.1",
+        "cboden/ratchet": "^0.4.3"
     }
 }

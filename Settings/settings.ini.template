@@ -1,0 +1,34 @@
+[app]
+appName =      "Api Name"
+apiVersion =   "0"
+publicLink =   "apiUrl"
+publicApiKey = "123456"
+appSalt =      "123456"
+
+[rng]
+genSalt =   "123456"
+
+[debug]
+debug = true
+
+[dbConnection]
+dbServername = "dbServername:port"
+dbUsername =   "dbUsername"
+dbPassword =   "dbPassword"
+dbDatabase =   "dbDatabase"
+
+[cors]
+corsAllowOrigin = "server:port"
+
+[swt]
+tokenSecret =       "tokenSecret1234AB$%"
+tokenExpiresAfter = "31556926"
+tokenName =         "playerToken"
+tokenNameAlt =      "player_token"
+
+[jsonBuilder]
+jbData =       "data"
+jbMessages =   "messages"
+jbPagination = "pagination"
+jbError =      "errors"
+jbMeta =       "meta"

@@ -2,7 +2,82 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0843a876-958a-4141-8419-e5512d37f090" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/settings/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/scopes/OwnCode.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/symfony2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controllers/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/CheckValidAccess.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Settings/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Viewmodels/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Websocket/Chat.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Websocket/Server.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/mafiaPhpApi.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mafiaPhpApi.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/AbilityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AbilityController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/AppController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AppController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/GameController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/GameController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/JsonPostValidationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/JsonPostValidationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/PlayerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/PlayerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/RoleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/RoleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/Connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/Connection/Connection.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations.php" beforeDir="false" afterPath="$PROJECT_DIR$/Connection/migrations.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/mafia-online-game-api-logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/Media/mafia-online-game-api-logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Ability.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Ability.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Faction.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Faction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Game.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Game.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/GamePhase.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/GamePhase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Pagination.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Pagination.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Player.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Player.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/PlayerToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PlayerToken.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Role.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Seat.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Seat.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/AbilityService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/AbilityService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/FactionService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/FactionService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/FormatService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/FormatService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/GamePhaseService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/GamePhaseService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/GameService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/GameService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/GlobalsService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/GlobalsService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/JsonBuilderService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/JsonBuilderService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/MessageService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/MessageService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/ObjectService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/ObjectService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/PaginationService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/PaginationService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/PlayerContext.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/PlayerContext.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/PlayerPackageService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/PlayerPackageService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/PlayerService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/PlayerService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/QueryService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/QueryService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/RandGenService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/RandGenService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/RoleService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/RoleService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/SL.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/SL.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/SeatService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/SeatService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/StartupContext.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/StartupContext.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/ValidationService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Services/ValidationService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/Connection/.htaccess" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings/settings.ini.template" beforeDir="false" afterPath="$PROJECT_DIR$/Settings/settings.ini.template" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/AbilityForOwnProfileViewModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/AbilityForOwnProfileViewModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/AbilityForPublicListing.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/AbilityForPublicListing.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/FactionForOwnProfileViewModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/FactionForOwnProfileViewModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/FactionForPublicListing.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/FactionForPublicListing.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/FactionViewModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/FactionViewModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/GameOverviewViewModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/GameOverviewViewModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/GamePhaseSmallViewModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/GamePhaseSmallViewModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/GameView.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/GameView.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/GameViewModelSmallest.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/GameViewModelSmallest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/PlayerPackage.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/PlayerPackage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/PlayerViewModelGameOverview.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/PlayerViewModelGameOverview.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/PlayerViewModelPublic.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/PlayerViewModelPublic.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/PlayerViewModelPublicExtended.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/PlayerViewModelPublicExtended.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/PlayerViewModelTokenizedPublic.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/PlayerViewModelTokenizedPublic.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/RoleForOwnProfileViewModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/RoleForOwnProfileViewModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/RoleForPublicListing.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/RoleForPublicListing.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewmodels/SeatViewModelRoleProfile.php" beforeDir="false" afterPath="$PROJECT_DIR$/Viewmodels/SeatViewModelRoleProfile.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -10,12 +85,41 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ComposerSettings">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
+  <component name="NamedScopeManager">
+    <order>
+      <scope name="OwnCode" />
+    </order>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/vendor/ratchet/rfc6455" />
+      <path value="$PROJECT_DIR$/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/vendor/cboden/ratchet" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/vendor/react/cache" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/react/dns" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/react/event-loop" />
+      <path value="$PROJECT_DIR$/vendor/react/promise" />
+      <path value="$PROJECT_DIR$/vendor/rbdwllr/reallysimplejwt" />
+      <path value="$PROJECT_DIR$/vendor/react/promise-timer" />
+      <path value="$PROJECT_DIR$/vendor/evenement/evenement" />
+      <path value="$PROJECT_DIR$/vendor/react/socket" />
+      <path value="$PROJECT_DIR$/vendor/react/stream" />
+      <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
+    </include_path>
+  </component>
   <component name="ProjectId" id="1gHQJ8jR6b48ahJxC5ZB9NWwL5N" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -25,8 +129,9 @@
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/viewmodels" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Websocket" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -36,19 +141,29 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="project.scopes" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Isa\mafiaPhpApi\Websocket" />
       <recent name="C:\Users\Isa\mafiaPhpApi\viewmodels" />
+      <recent name="C:\Users\Isa\mafiaPhpApi\models" />
+      <recent name="C:\Users\Isa\mafiaPhpApi\controllers" />
+      <recent name="C:\Users\Isa\mafiaPhpApi\services" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="PHP Script.Server.php">
+    <configuration name="Server.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/Websocket/Server.php">
+      <method v="2" />
+    </configuration>
     <configuration name="index.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/index.php">
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="PHP Script.Server.php" />
         <item itemvalue="PHP Script.index.php" />
       </list>
     </recent_temporary>
@@ -63,7 +178,8 @@
       <updated>1597768963560</updated>
       <workItem from="1597768964636" duration="73999000" />
       <workItem from="1597958937077" duration="158479000" />
-      <workItem from="1598321333624" duration="212325000" />
+      <workItem from="1598321333624" duration="238892000" />
+      <workItem from="1599859108763" duration="792000" />
     </task>
     <task id="LOCAL-00001" summary="commit1">
       <created>1598670137528</created>
@@ -107,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599678271184</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="commit7">
+      <created>1599678417058</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1599678417058</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -118,13 +241,18 @@
     <MESSAGE value="commit3" />
     <MESSAGE value="commit4" />
     <MESSAGE value="commit5" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit5" />
+    <MESSAGE value="commit7" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit7" />
   </component>
   <component name="WindowStateProjectService">
     <state x="-1380" y="179" key="#CLI_Interpreters" timestamp="1599634891254">
       <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
     <state x="-1380" y="179" key="#CLI_Interpreters/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599634891254" />
+    <state x="711" y="404" key="#Composer" timestamp="1599859176243">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="711" y="404" key="#Composer/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1599859176243" />
     <state x="552" y="183" key="#Intentions" timestamp="1597839584941">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -158,30 +286,42 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="690" y="272" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598135243748" />
+    <state x="-1230" y="280" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1599690690296">
+      <screen x="-1920" y="0" width="1920" height="1050" />
+    </state>
+    <state x="-1230" y="280" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599690690296" />
     <state x="710" y="376" key="#com.jetbrains.php.refactoring.move.member.instance.PhpMoveInstanceMethodDialog#" timestamp="1598039215949">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="710" y="376" key="#com.jetbrains.php.refactoring.move.member.instance.PhpMoveInstanceMethodDialog#/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598039215949" />
-    <state x="-1376" y="94" key="CommitChangelistDialog2" timestamp="1599678270653">
+    <state x="-1211" y="382" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1599691543982">
       <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
-    <state x="-1376" y="94" key="CommitChangelistDialog2/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599678270653" />
+    <state x="-1211" y="382" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599691543982" />
+    <state x="-1376" y="94" key="CommitChangelistDialog2" timestamp="1599678416681">
+      <screen x="-1920" y="0" width="1920" height="1050" />
+    </state>
+    <state x="-1376" y="94" key="CommitChangelistDialog2/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599678416681" />
     <state x="544" y="94" key="CommitChangelistDialog2/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598918833214" />
-    <state width="1877" height="146" key="GridCell.Tab.0.bottom" timestamp="1598321011618">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1501" height="285" key="GridCell.Tab.0.bottom" timestamp="1599762331342">
+      <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
+    <state width="1501" height="285" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599762331342" />
     <state width="1877" height="146" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598321011618" />
-    <state width="1877" height="146" key="GridCell.Tab.0.center" timestamp="1598321011618">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1501" height="285" key="GridCell.Tab.0.center" timestamp="1599762331342">
+      <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
+    <state width="1501" height="285" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599762331342" />
     <state width="1877" height="146" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598321011618" />
-    <state width="1877" height="146" key="GridCell.Tab.0.left" timestamp="1598321011618">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1501" height="285" key="GridCell.Tab.0.left" timestamp="1599762331342">
+      <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
+    <state width="1501" height="285" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599762331342" />
     <state width="1877" height="146" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598321011618" />
-    <state width="1877" height="146" key="GridCell.Tab.0.right" timestamp="1598321011618">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state width="1501" height="285" key="GridCell.Tab.0.right" timestamp="1599762331342">
+      <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
+    <state width="1501" height="285" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599762331342" />
     <state width="1877" height="146" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598321011618" />
     <state width="1877" height="146" key="GridCell.Tab.1.bottom" timestamp="1598321011618">
       <screen x="0" y="0" width="1920" height="1050" />
@@ -203,23 +343,24 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="174" height="456" key="HiddenNamespacesPopup/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1597771928214" />
-    <state x="-1141" y="249" key="NewPhpClassDialog" timestamp="1599267463898">
+    <state x="-1141" y="249" key="NewPhpClassDialog" timestamp="1599682877587">
       <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
-    <state x="-1141" y="249" key="NewPhpClassDialog/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599267463898" />
+    <state x="-1141" y="249" key="NewPhpClassDialog/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599682877587" />
     <state x="779" y="249" key="NewPhpClassDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598376002175" />
-    <state x="795" y="448" key="NewPhpFileDialog" timestamp="1598926163627">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="-1125" y="448" key="NewPhpFileDialog" timestamp="1599679719368">
+      <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
+    <state x="-1125" y="448" key="NewPhpFileDialog/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599679719368" />
     <state x="795" y="448" key="NewPhpFileDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598926163627" />
-    <state x="-1444" y="170" key="SettingsEditor" timestamp="1599634896883">
+    <state x="-1444" y="170" key="SettingsEditor" timestamp="1599697205525">
       <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
-    <state x="-1444" y="170" key="SettingsEditor/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599634896883" />
-    <state x="-1368" y="258" key="Vcs.Push.Dialog.v2" timestamp="1599678272374">
+    <state x="-1444" y="170" key="SettingsEditor/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599697205525" />
+    <state x="-1368" y="258" key="Vcs.Push.Dialog.v2" timestamp="1599678418484">
       <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
-    <state x="-1368" y="258" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599678272374" />
+    <state x="-1368" y="258" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599678418484" />
     <state x="552" y="258" key="Vcs.Push.Dialog.v2/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598918837889" />
     <state x="802" y="123" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1597832976061">
       <screen x="0" y="0" width="1920" height="1050" />
@@ -247,18 +388,19 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="0" y="0" width="1357" height="1037" key="dock-window-4/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599601537090" />
-    <state x="-1578" y="120" width="1106" height="772" key="find.popup" timestamp="1599677350119">
+    <state x="-1578" y="120" width="1106" height="772" key="find.popup" timestamp="1599763804641">
       <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
-    <state x="-1578" y="120" width="1106" height="772" key="find.popup/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599677350119" />
+    <state x="-1578" y="120" width="1106" height="772" key="find.popup/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599763804641" />
     <state x="687" y="303" width="881" height="650" key="find.popup/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598381490525" />
     <state x="616" y="243" key="run.anything.popup" timestamp="1598325738666">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="616" y="243" key="run.anything.popup/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598325738666" />
-    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1598097868837">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="-1297" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1599691782114">
+      <screen x="-1920" y="0" width="1920" height="1050" />
     </state>
+    <state x="-1297" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/-1920.0.1920.1050@-1920.0.1920.1050" timestamp="1599691782114" />
     <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1598097868837" />
   </component>
 </project>
